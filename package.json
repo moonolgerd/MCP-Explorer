@@ -3,18 +3,18 @@
   "displayName": "MCP Explorer",
   "description": "Find and install Model Context Protocol (MCP) servers for VS Code",
   "version": "0.0.1",
-  "publisher": "mcp-explorer-publisher",
+  "publisher": "moonolgerdai",
   "author": {
-    "name": "Your Name"
+    "name": "moonolgerd"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/mcp-explorer.git"
+    "url": "https://github.com/moonolgerd/mcp-explorer.git"
   },
-  "homepage": "https://github.com/your-username/mcp-explorer#readme",
+  "homepage": "https://github.com/moonolgerd/mcp-explorer#readme",
   "bugs": {
-    "url": "https://github.com/your-username/mcp-explorer/issues"
+    "url": "https://github.com/moonolgerd/mcp-explorer/issues"
   },
   "keywords": [
     "mcp",
@@ -67,7 +67,7 @@
         "icon": "$(add)"
       },
       {
-        "command": "mcpExplorer.uninstall", 
+        "command": "mcpExplorer.uninstall",
         "title": "Uninstall MCP Server",
         "icon": "$(remove)"
       },
@@ -126,7 +126,7 @@
         },
         {
           "command": "mcpExplorer.search",
-          "when": "view == mcpExplorer", 
+          "when": "view == mcpExplorer",
           "group": "navigation"
         },
         {
@@ -192,7 +192,7 @@
       "title": "MCP Explorer",
       "properties": {
         "mcpExplorer.serverRegistry": {
-          "type": "string", 
+          "type": "string",
           "default": "./mcp-servers-registry.json",
           "description": "URL or path to the MCP server registry JSON file"
         },
