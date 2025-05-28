@@ -27,9 +27,7 @@ export class McpInstallationService {
                     if (missingRequirements.length > 0) {
                         throw new Error(`Missing requirements: ${missingRequirements.join(', ')}`);
                     }
-                }
-
-                // Execute installation command
+                }                // Execute installation command
                 progress.report({ increment: 30, message: 'Installing package...' });
                 const success = await this.executeInstallCommand(server.installCommand, progress, token);
 
@@ -40,13 +38,17 @@ export class McpInstallationService {
                 if (token.isCancellationRequested) {
                     this._onDidChangeInstallation.fire({ server, status: InstallationStatus.Failed });
                     return false;
-                }                progress.report({ increment: 100, message: 'Installation complete!' });
+                }
+
+                progress.report({ increment: 80, message: 'Configuring server...' });
 
                 // Add server to VS Code MCP configuration
                 const configSuccess = await this.addServerToConfiguration(server);
                 if (!configSuccess) {
                     vscode.window.showWarningMessage(`${server.name} installed but failed to configure in VS Code settings`);
                 }
+
+                progress.report({ increment: 100, message: 'Installation complete!' });
 
                 server.isInstalled = true;
                 this._onDidChangeInstallation.fire({ server, status: InstallationStatus.Installed });
@@ -280,9 +282,7 @@ export class McpInstallationService {
                 console.error('Failed to execute install command:', error);
                 resolve(false);            }
         });
-    }
-
-    /**
+    }    /**
      * Adds a successfully installed MCP server to VS Code settings
      */
     private async addServerToConfiguration(server: McpServer): Promise<boolean> {
@@ -293,24 +293,31 @@ export class McpInstallationService {
             // Create server configuration based on the server data
             const serverConfig = this.createServerConfiguration(server);
             if (!serverConfig) {
+                console.error(`Failed to create configuration for ${server.name}`);
                 return false;
             }
 
+            // Use a clean server ID for the configuration
+            // Remove common suffixes and normalize the ID
+            let configId = server.id;
+            if (configId.endsWith('-server')) {
+                configId = configId.slice(0, -7); // Remove '-server'
+            }
+            
             // Add to the servers object
-            currentServers[server.id] = serverConfig;
+            currentServers[configId] = serverConfig;
 
             // Update the configuration
             await config.update('servers', currentServers, vscode.ConfigurationTarget.Global);
             
-            console.log(`Added ${server.name} to VS Code MCP configuration`);
+            console.log(`Added ${server.name} to VS Code MCP configuration with ID: ${configId}`);
+            console.log(`Configuration:`, JSON.stringify(serverConfig, null, 2));
             return true;
         } catch (error) {
             console.error(`Failed to add ${server.name} to VS Code configuration:`, error);
             return false;
         }
-    }
-
-    /**
+    }    /**
      * Removes an MCP server from VS Code settings
      */
     private async removeServerFromConfiguration(server: McpServer): Promise<boolean> {
@@ -318,22 +325,35 @@ export class McpInstallationService {
             const config = vscode.workspace.getConfiguration('mcp');
             const currentServers = config.get<any>('servers') || {};
 
-            // Remove the server
+            let removed = false;
+            
+            // Remove with original ID
             if (currentServers[server.id]) {
                 delete currentServers[server.id];
+                removed = true;
+            }
+            
+            // Remove with cleaned ID (without '-server' suffix)
+            let configId = server.id;
+            if (configId.endsWith('-server')) {
+                configId = configId.slice(0, -7);
+                if (currentServers[configId]) {
+                    delete currentServers[configId];
+                    removed = true;
+                }
+            }
+            
+            if (removed) {
                 await config.update('servers', currentServers, vscode.ConfigurationTarget.Global);
                 console.log(`Removed ${server.name} from VS Code MCP configuration`);
-                return true;
             }
 
-            return true; // Already removed
+            return true; // Always return true since we want to indicate success
         } catch (error) {
             console.error(`Failed to remove ${server.name} from VS Code configuration:`, error);
             return false;
         }
-    }
-
-    /**
+    }/**
      * Creates VS Code MCP server configuration from server data
      */
     private createServerConfiguration(server: McpServer): any | null {
@@ -344,42 +364,64 @@ export class McpInstallationService {
             }
 
             // For npm packages, use npx
-            if (server.installCommand.includes('npm install')) {
+            if (server.installCommand.includes('npm install') || server.installCommand.includes('npx')) {
                 const packageName = this.extractPackageName(server.installCommand);
+                if (!packageName) {
+                    console.error(`Could not extract package name from: ${server.installCommand}`);
+                    return null;
+                }
+                
                 return {
-                    type: 'stdio',
                     command: 'npx',
-                    args: [packageName]
+                    args: [packageName],
+                    transport: 'stdio'
                 };
             }
 
             // For pip packages, use uvx or python -m
             if (server.installCommand.includes('pip install')) {
                 const packageName = this.extractPythonPackageName(server.installCommand);
+                if (!packageName) {
+                    console.error(`Could not extract Python package name from: ${server.installCommand}`);
+                    return null;
+                }
+                
                 return {
-                    type: 'stdio',
                     command: 'uvx',
-                    args: [packageName]
+                    args: [packageName],
+                    transport: 'stdio'
                 };
             }
 
             // For Docker commands
             if (server.dockerCommand) {
-                const dockerArgs = server.dockerCommand.split(' ').slice(1); // Remove 'docker'
+                const dockerParts = server.dockerCommand.split(' ');
+                if (dockerParts[0] === 'docker') {
+                    return {
+                        command: 'docker',
+                        args: dockerParts.slice(1),
+                        transport: 'stdio'
+                    };
+                }
+            }
+
+            // Handle direct npx commands
+            if (server.installCommand.startsWith('npx')) {
+                const parts = server.installCommand.split(' ');
                 return {
-                    type: 'stdio',
-                    command: 'docker',
-                    args: dockerArgs
+                    command: 'npx',
+                    args: parts.slice(1),
+                    transport: 'stdio'
                 };
             }
 
-            // Fallback configuration
+            // Fallback configuration for other command types
             const commandParts = server.installCommand.split(' ');
-            if (commandParts.length >= 2) {
+            if (commandParts.length >= 1) {
                 return {
-                    type: 'stdio',
                     command: commandParts[0],
-                    args: commandParts.slice(1)
+                    args: commandParts.slice(1),
+                    transport: 'stdio'
                 };
             }
 
@@ -445,36 +487,86 @@ export class McpInstallationService {
                 resolve(false);
             }
         });
-    }
-
-    /**
+    }    /**
      * Checks if a server is configured in VS Code MCP settings
      */
     public isServerConfigured(server: McpServer): boolean {
         try {
             const config = vscode.workspace.getConfiguration('mcp');
             const currentServers = config.get<any>('servers') || {};
-            return !!currentServers[server.id];
+            
+            // Check with the original ID first
+            if (currentServers[server.id]) {
+                return true;
+            }
+            
+            // Check with the cleaned ID (without '-server' suffix)
+            let configId = server.id;
+            if (configId.endsWith('-server')) {
+                configId = configId.slice(0, -7);
+            }
+            
+            return !!currentServers[configId];
         } catch (error) {
             console.error(`Failed to check configuration for ${server.name}:`, error);
             return false;
         }
-    }
-
-    /**
+    }/**
      * Extracts package name from npm install command
      */
     private extractPackageName(installCommand: string): string {
-        const match = installCommand.match(/npm install\s+(-g\s+)?(.+)/);
-        return match ? match[2].trim() : '';
+        // Handle various npm/npx command formats
+        let match;
+        
+        // Try to match 'npm install @scope/package' or 'npm install package'
+        match = installCommand.match(/npm install\s+(-g\s+)?(@?[\w-]+(?:\/[\w-]+)?)/);
+        if (match) {
+            return match[2].trim();
+        }
+        
+        // Try to match 'npx @scope/package' or 'npx package'
+        match = installCommand.match(/npx\s+(-y\s+)?(@?[\w-]+(?:\/[\w-]+)?)/);
+        if (match) {
+            return match[2].trim();
+        }
+        
+        // Fallback: extract last argument that looks like a package name
+        const parts = installCommand.split(' ');
+        for (let i = parts.length - 1; i >= 0; i--) {
+            const part = parts[i];
+            if (part && !part.startsWith('-') && (part.includes('@') || part.match(/^[\w-]+$/))) {
+                return part;
+            }
+        }
+        
+        console.warn(`Could not extract package name from: ${installCommand}`);
+        return '';
     }
 
     /**
      * Extracts package name from pip install command
      */
     private extractPythonPackageName(installCommand: string): string {
-        const match = installCommand.match(/pip install\s+(.+)/);
-        return match ? match[1].trim() : '';
+        // Handle various pip command formats
+        let match;
+        
+        // Try to match 'pip install package-name' or 'pip install package_name'
+        match = installCommand.match(/pip install\s+([\w-_]+)/);
+        if (match) {
+            return match[1].trim();
+        }
+        
+        // Fallback: extract last argument that looks like a package name
+        const parts = installCommand.split(' ');
+        for (let i = parts.length - 1; i >= 0; i--) {
+            const part = parts[i];
+            if (part && !part.startsWith('-') && part.match(/^[\w-_]+$/)) {
+                return part;
+            }
+        }
+        
+        console.warn(`Could not extract Python package name from: ${installCommand}`);
+        return '';
     }
 
     /**
