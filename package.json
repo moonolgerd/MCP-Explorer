@@ -1,0 +1,210 @@
+{
+  "name": "mcp-explorer",
+  "displayName": "MCP Explorer",
+  "description": "Find and install Model Context Protocol (MCP) servers for VS Code",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "id": "mcpExplorer",
+          "name": "MCP Servers",
+          "icon": "$(server-environment)",
+          "when": "true"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "mcpExplorer.refresh",
+        "title": "Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "mcpExplorer.search",
+        "title": "Search MCP Servers",
+        "icon": "$(search)"
+      },
+      {
+        "command": "mcpExplorer.install",
+        "title": "Install MCP Server",
+        "icon": "$(add)"
+      },
+      {
+        "command": "mcpExplorer.uninstall", 
+        "title": "Uninstall MCP Server",
+        "icon": "$(remove)"
+      },
+      {
+        "command": "mcpExplorer.configure",
+        "title": "Configure MCP Server",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "mcpExplorer.viewDetails",
+        "title": "View Details",
+        "icon": "$(info)"
+      },
+      {
+        "command": "mcpExplorer.showMcpConfig",
+        "title": "Show MCP Configuration",
+        "icon": "$(settings-gear)"
+      },
+      {
+        "command": "mcpExplorer.testInstallation",
+        "title": "Test Installation",
+        "icon": "$(play)"
+      },
+      {
+        "command": "mcpExplorer.showInstallationStatus",
+        "title": "Show Installation Status",
+        "icon": "$(list-tree)"
+      },
+      {
+        "command": "mcpExplorer.validateMcpConfig",
+        "title": "Validate MCP Configuration",
+        "icon": "$(check)"
+      },
+      {
+        "command": "mcpExplorer.demoInstallFilesystem",
+        "title": "Demo: Install Filesystem Server",
+        "icon": "$(download)"
+      },
+      {
+        "command": "mcpExplorer.syncWithUserConfig",
+        "title": "Sync with User Configuration",
+        "icon": "$(sync)"
+      },
+      {
+        "command": "mcpExplorer.showUserConfiguredServers",
+        "title": "Show User Configured Servers",
+        "icon": "$(account)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "mcpExplorer.refresh",
+          "when": "view == mcpExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "mcpExplorer.search",
+          "when": "view == mcpExplorer", 
+          "group": "navigation"
+        },
+        {
+          "command": "mcpExplorer.showMcpConfig",
+          "when": "view == mcpExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "mcpExplorer.testInstallation",
+          "when": "view == mcpExplorer",
+          "group": "testing"
+        },
+        {
+          "command": "mcpExplorer.showInstallationStatus",
+          "when": "view == mcpExplorer",
+          "group": "testing"
+        },
+        {
+          "command": "mcpExplorer.validateMcpConfig",
+          "when": "view == mcpExplorer",
+          "group": "testing"
+        },
+        {
+          "command": "mcpExplorer.demoInstallFilesystem",
+          "when": "view == mcpExplorer",
+          "group": "demo"
+        },
+        {
+          "command": "mcpExplorer.syncWithUserConfig",
+          "when": "view == mcpExplorer",
+          "group": "user"
+        },
+        {
+          "command": "mcpExplorer.showUserConfiguredServers",
+          "when": "view == mcpExplorer",
+          "group": "user"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "mcpExplorer.install",
+          "when": "view == mcpExplorer && viewItem == mcpServer",
+          "group": "inline"
+        },
+        {
+          "command": "mcpExplorer.uninstall",
+          "when": "view == mcpExplorer && viewItem == installedMcpServer",
+          "group": "inline"
+        },
+        {
+          "command": "mcpExplorer.configure",
+          "when": "view == mcpExplorer && viewItem == installedMcpServer",
+          "group": "inline"
+        },
+        {
+          "command": "mcpExplorer.viewDetails",
+          "when": "view == mcpExplorer && viewItem =~ /mcpServer/",
+          "group": "inline"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "MCP Explorer",
+      "properties": {
+        "mcpExplorer.serverRegistry": {
+          "type": "string", 
+          "default": "./mcp-servers-registry.json",
+          "description": "URL or path to the MCP server registry JSON file"
+        },
+        "mcpExplorer.installPath": {
+          "type": "string",
+          "default": "~/.mcp",
+          "description": "Path where MCP servers will be installed"
+        },
+        "mcpExplorer.autoRefresh": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically refresh the server list on startup"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.100.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "eslint": "^9.25.1",
+    "esbuild": "^0.25.3",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.8.3",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}

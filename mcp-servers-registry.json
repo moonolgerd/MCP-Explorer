@@ -1,0 +1,2157 @@
+{
+  "version": "2.2.0",
+  "lastUpdated": "2025-01-27T16:30:00Z",
+  "totalServers": 105,
+  "categories": [
+    "Development", 
+    "Database", 
+    "AI/ML", 
+    "Cloud Services", 
+    "Communication", 
+    "Productivity", 
+    "File System", 
+    "Web Services", 
+    "Search", 
+    "DevOps",
+    "Automation",
+    "Security",
+    "Data Science",
+    "Finance",
+    "Gaming",
+    "E-commerce",
+    "Social Media",
+    "Music & Audio",
+    "Design & Graphics",
+    "Travel & Maps"
+  ],
+  "servers": [
+    {
+      "id": "filesystem-server",
+      "name": "Filesystem Server",
+      "description": "Secure file operations with configurable access controls. Read/write files, create/list/delete directories, move files, search files, and get metadata.",
+      "version": "1.0.0",
+      "author": "Model Context Protocol Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "File System",
+      "tags": ["filesystem", "files", "directories", "official", "reference"],
+      "installCommand": "npx @modelcontextprotocol/server-filesystem",
+      "dockerCommand": "docker run -i --rm --mount type=bind,src=/path/to/dir,dst=/projects mcp/filesystem",
+      "features": ["file read/write", "directory operations", "file search", "metadata access", "secure sandboxing"],
+      "requirements": {
+        "node": ">=18.0.0"
+      }
+    },
+    {
+      "id": "github-server", 
+      "name": "GitHub Server",
+      "description": "Repository management, file operations, and GitHub API integration. Create issues, manage repositories, search code, and handle pull requests.",
+      "version": "2.1.0",
+      "author": "Model Context Protocol Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/github",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Development",
+      "tags": ["github", "git", "repositories", "issues", "official", "reference"],
+      "installCommand": "npx @modelcontextprotocol/server-github",
+      "features": ["repository management", "issue creation", "file operations", "pull requests", "code search"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "GITHUB_PERSONAL_ACCESS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "sqlite-server",
+      "name": "SQLite Server", 
+      "description": "Database interaction and business intelligence capabilities. Execute queries, analyze data, and generate automated business insight memos.",
+      "version": "1.2.3",
+      "author": "Model Context Protocol Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/sqlite",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Database",
+      "tags": ["sqlite", "database", "sql", "query", "official", "reference", "business-intelligence"],
+      "installCommand": "npx @modelcontextprotocol/server-sqlite",
+      "dockerCommand": "docker run -i --rm -v mcp-sqlite:/mcp mcp/sqlite --db-path /mcp/db.sqlite",
+      "features": ["query execution", "schema inspection", "business insights", "memo generation", "table management"],
+      "requirements": {
+        "node": ">=18.0.0"
+      }
+    },
+    {
+      "id": "memory-server",
+      "name": "Memory Server",
+      "description": "Knowledge graph-based persistent memory system. Create entities, relationships, and observations for cross-conversation memory.",
+      "version": "0.6.3",
+      "author": "Model Context Protocol Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/memory",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "AI/ML",
+      "tags": ["memory", "knowledge-graph", "persistence", "official", "reference", "entities"],
+      "installCommand": "npx @modelcontextprotocol/server-memory",
+      "features": ["entity creation", "relationship mapping", "persistent memory", "graph search", "observation tracking"],
+      "requirements": {
+        "node": ">=18.0.0"
+      }
+    },
+    {
+      "id": "postgres-server",
+      "name": "PostgreSQL Server",
+      "description": "Read-only database access with schema inspection. Execute queries within read-only transactions and explore database schemas.",
+      "version": "0.1.0", 
+      "author": "Model Context Protocol Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/postgres",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Database",
+      "tags": ["postgresql", "database", "sql", "schema", "official", "reference"],
+      "installCommand": "npx @modelcontextprotocol/server-postgres",
+      "features": ["read-only queries", "schema inspection", "table metadata", "safe transactions"],
+      "requirements": {
+        "node": ">=18.0.0",
+        "environment": {
+          "POSTGRES_CONNECTION_STRING": "required"
+        }
+      }
+    },
+    {
+      "id": "brave-search-server",
+      "name": "Brave Search Server",
+      "description": "Web and local search using Brave's Search API. Supports pagination, filtering, and both general web search and local business search.",
+      "version": "0.1.0",
+      "author": "Model Context Protocol Team", 
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/brave-search",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Search",
+      "tags": ["search", "brave", "web", "local", "official", "reference"],
+      "installCommand": "npx @modelcontextprotocol/server-brave-search",
+      "dockerCommand": "docker run -i --rm -e BRAVE_API_KEY mcp/brave-search",
+      "features": ["web search", "local business search", "pagination", "content filtering", "freshness controls"],
+      "requirements": {
+        "node": ">=18.0.0",
+        "environment": {
+          "BRAVE_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "git-server",
+      "name": "Git Server",
+      "description": "Tools to read, search, and manipulate Git repositories. Access commit history, file contents, and repository metadata.",
+      "version": "1.0.0",
+      "author": "Model Context Protocol Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/git", 
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Development",
+      "tags": ["git", "version-control", "repositories", "official", "reference"],
+      "installCommand": "uvx mcp-server-git --repository /path/to/repo",
+      "features": ["commit history", "file content access", "branch management", "repository search"],
+      "requirements": {
+        "python": ">=3.8"
+      }
+    },
+    {
+      "id": "fetch-server", 
+      "name": "Fetch Server",
+      "description": "Web content fetching and conversion for efficient LLM usage. Convert HTML to markdown, extract text, and handle various content types.",
+      "version": "1.0.0",
+      "author": "Model Context Protocol Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/fetch",
+      "repository": "https://github.com/modelcontextprotocol/servers", 
+      "category": "Web Services",
+      "tags": ["fetch", "web", "html", "markdown", "official", "reference"],
+      "installCommand": "npx @modelcontextprotocol/server-fetch", 
+      "features": ["HTML to markdown", "text extraction", "content conversion", "flexible fetching"],
+      "requirements": {
+        "node": ">=18.0.0"
+      }
+    },
+    {
+      "id": "time-server",
+      "name": "Time Server", 
+      "description": "Time and timezone conversion capabilities. Get current time, convert between timezones, and format dates.",
+      "version": "1.0.0",
+      "author": "Model Context Protocol Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/time",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Productivity", 
+      "tags": ["time", "timezone", "date", "official", "reference"],
+      "installCommand": "npx @modelcontextprotocol/server-time",
+      "features": ["current time", "timezone conversion", "date formatting", "time calculations"],
+      "requirements": {
+        "node": ">=18.0.0"
+      }
+    },
+    {
+      "id": "everything-server",
+      "name": "Everything Server",
+      "description": "Reference test server demonstrating all MCP features. Includes prompts, tools, resources, and sampling capabilities.",
+      "version": "1.0.0", 
+      "author": "Model Context Protocol Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/everything",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Development",
+      "tags": ["reference", "test", "demo", "official", "prompts", "tools", "resources"],
+      "installCommand": "npx @modelcontextprotocol/server-everything",
+      "features": ["all MCP features", "prompts", "tools", "resources", "sampling", "testing"],
+      "requirements": {
+        "node": ">=18.0.0"
+      }
+    },
+    {
+      "id": "docker-server",
+      "name": "Docker Server",
+      "description": "Manage Docker containers, images, volumes, and networks",
+      "version": "1.5.0",
+      "author": "ckreiling",
+      "homepage": "https://github.com/ckreiling/mcp-server-docker",
+      "repository": "https://github.com/ckreiling/mcp-server-docker",
+      "category": "DevOps",
+      "tags": ["docker", "containers", "images", "deployment"],
+      "installCommand": "npm install mcp-server-docker",
+      "features": ["container management", "image operations", "volume handling", "network configuration"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "system": ["docker"]
+      }
+    },
+    {
+      "id": "kubernetes-server",
+      "name": "Kubernetes Server",
+      "description": "Connect to Kubernetes cluster and manage pods, deployments, and services",
+      "version": "1.0.0",
+      "author": "Flux159",
+      "homepage": "https://github.com/Flux159/mcp-server-kubernetes",
+      "repository": "https://github.com/Flux159/mcp-server-kubernetes",
+      "category": "DevOps",
+      "tags": ["kubernetes", "k8s", "pods", "deployments", "services"],
+      "installCommand": "npm install mcp-server-kubernetes",
+      "features": ["pod management", "deployment control", "service configuration", "cluster monitoring"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "system": ["kubectl"]
+      }
+    },
+    {
+      "id": "aws-server",
+      "name": "AWS Server",
+      "description": "Perform operations on your AWS resources using an LLM",
+      "version": "1.0.0",
+      "author": "rishikavikondala",
+      "homepage": "https://github.com/rishikavikondala/mcp-server-aws",
+      "repository": "https://github.com/rishikavikondala/mcp-server-aws",
+      "category": "Cloud Services",
+      "tags": ["aws", "cloud", "amazon", "infrastructure"],
+      "installCommand": "npm install mcp-server-aws",
+      "features": ["resource management", "service control", "infrastructure automation", "cost monitoring"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "AWS_ACCESS_KEY_ID": "required",
+          "AWS_SECRET_ACCESS_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "azure-devops-server",
+      "name": "Azure DevOps Server",
+      "description": "An MCP server that provides a bridge to Azure DevOps services, enabling AI assistants to query and manage work items",
+      "version": "1.0.0",
+      "author": "Vortiago",
+      "homepage": "https://github.com/Vortiago/mcp-azure-devops",
+      "repository": "https://github.com/Vortiago/mcp-azure-devops",
+      "category": "Development",
+      "tags": ["azure", "devops", "work-items", "microsoft"],
+      "installCommand": "npm install mcp-azure-devops",
+      "features": ["work item management", "project tracking", "build integration", "release management"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "AZURE_DEVOPS_PAT": "required",
+          "AZURE_DEVOPS_ORG": "required"
+        }
+      }
+    },
+    {
+      "id": "slack-server",
+      "name": "Slack Server",
+      "description": "Send messages and interact with Slack workspaces",
+      "version": "1.2.0",
+      "author": "SlackTeam",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/slack",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Communication",
+      "tags": ["slack", "messaging", "communication", "team"],
+      "installCommand": "npm install @modelcontextprotocol/server-slack",
+      "features": ["message sending", "channel management", "user lookup", "file sharing"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "SLACK_BOT_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "calendar-server",
+      "name": "Calendar Server",
+      "description": "Access and manage calendar events and schedules",
+      "version": "2.0.0",
+      "author": "Productivity Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/calendar",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Productivity",
+      "tags": ["calendar", "events", "scheduling", "time"],
+      "installCommand": "pip install mcp-server-calendar",
+      "features": ["event creation", "calendar viewing", "reminder management", "meeting scheduling"],
+      "requirements": {
+        "python": ">=3.9"
+      }
+    },
+    {
+      "id": "jira-server",
+      "name": "Jira Server",
+      "description": "Create, update, and manage Jira issues and projects",
+      "version": "1.1.0",
+      "author": "Project Management Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/jira",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Development",
+      "tags": ["jira", "issues", "project-management", "atlassian"],
+      "installCommand": "npm install @modelcontextprotocol/server-jira",
+      "features": ["issue creation", "project management", "workflow automation", "reporting"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "JIRA_API_TOKEN": "required",
+          "JIRA_BASE_URL": "required"
+        }
+      }
+    },
+    {
+      "id": "notion-server",
+      "name": "Notion Server",
+      "description": "Read and write Notion pages, databases, and blocks",
+      "version": "1.3.0",
+      "author": "Notion Integration Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/notion",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Productivity",
+      "tags": ["notion", "documentation", "database", "notes"],
+      "installCommand": "npm install @modelcontextprotocol/server-notion",
+      "features": ["page editing", "database queries", "block manipulation", "content search"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "NOTION_INTEGRATION_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "email-server",
+      "name": "Email Server",
+      "description": "Send and receive emails through various providers",
+      "version": "1.0.0",
+      "author": "Communication Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/email",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Communication",
+      "tags": ["email", "smtp", "imap", "communication"],
+      "installCommand": "pip install mcp-server-email",
+      "features": ["email sending", "inbox management", "attachment handling", "email search"],
+      "requirements": {
+        "python": ">=3.8",
+        "environment": {
+          "SMTP_SERVER": "required",
+          "EMAIL_USERNAME": "required",
+          "EMAIL_PASSWORD": "required"
+        }
+      }
+    },
+    {
+      "id": "web-search-server",
+      "name": "Web Search Server",
+      "description": "Search the web using various search engines and APIs",
+      "version": "0.9.1",
+      "author": "Search Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/web-search",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Search",
+      "tags": ["web", "search", "internet", "query"],
+      "installCommand": "pip install mcp-server-web-search",
+      "features": ["multi-engine search", "result filtering", "content extraction", "search analytics"],
+      "requirements": {
+        "python": ">=3.8"
+      }
+    },
+    {
+      "id": "anthropic-server",
+      "name": "Anthropic Server",
+      "description": "Integration with Anthropic's Claude API for AI assistance",
+      "version": "2.0.0",
+      "author": "Anthropic Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/anthropic",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "AI/ML",
+      "tags": ["anthropic", "claude", "ai", "llm"],
+      "installCommand": "npm install @modelcontextprotocol/server-anthropic",
+      "features": ["Claude API access", "conversation management", "model selection", "token tracking"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "ANTHROPIC_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "openai-server",
+      "name": "OpenAI Server",
+      "description": "Integration with OpenAI's GPT models and APIs",
+      "version": "1.8.0",
+      "author": "OpenAI Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/openai",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "AI/ML",
+      "tags": ["openai", "gpt", "ai", "llm"],
+      "installCommand": "npm install @modelcontextprotocol/server-openai",
+      "features": ["GPT model access", "completion generation", "embedding creation", "fine-tuning support"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "OPENAI_API_KEY": "required"
+        }
+      }
+    },    {
+      "id": "terminal-server",
+      "name": "Terminal Server",
+      "description": "Execute shell commands and manage terminal sessions",
+      "version": "1.0.0",
+      "author": "System Tools Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/terminal",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Development",
+      "tags": ["terminal", "shell", "commands", "system"],
+      "installCommand": "npm install @modelcontextprotocol/server-terminal",
+      "features": ["command execution", "session management", "output capture", "environment control"],
+      "requirements": {
+        "node": ">=16.0.0"
+      }
+    },
+    {
+      "id": "redis-server",
+      "name": "Redis Server",
+      "description": "Connect to Redis instances for caching and data operations",
+      "version": "1.0.0",
+      "author": "Database Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/redis",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Database",
+      "tags": ["redis", "cache", "nosql", "memory"],
+      "installCommand": "npm install @modelcontextprotocol/server-redis",
+      "features": ["key-value operations", "pub/sub messaging", "data structures", "performance monitoring"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "REDIS_URL": "required"
+        }
+      }
+    },
+    {
+      "id": "mongodb-server",
+      "name": "MongoDB Server",
+      "description": "Document database operations and MongoDB management",
+      "version": "1.2.0",
+      "author": "NoSQL Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/mongodb",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Database",
+      "tags": ["mongodb", "nosql", "documents", "aggregation"],
+      "installCommand": "npm install @modelcontextprotocol/server-mongodb",
+      "features": ["document operations", "aggregation pipelines", "index management", "schema validation"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "MONGODB_URI": "required"
+        }
+      }
+    },
+    {
+      "id": "mysql-server",
+      "name": "MySQL Server",
+      "description": "MySQL database connections and SQL operations",
+      "version": "1.1.0",
+      "author": "SQL Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/mysql",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Database",
+      "tags": ["mysql", "sql", "relational", "queries"],
+      "installCommand": "npm install @modelcontextprotocol/server-mysql",
+      "features": ["SQL queries", "table operations", "stored procedures", "performance analysis"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "MYSQL_CONNECTION_STRING": "required"
+        }
+      }
+    },
+    {
+      "id": "elasticsearch-server",
+      "name": "Elasticsearch Server",
+      "description": "Full-text search and analytics with Elasticsearch",
+      "version": "1.0.0",
+      "author": "Search Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/elasticsearch",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Search",
+      "tags": ["elasticsearch", "search", "analytics", "indexing"],
+      "installCommand": "npm install @modelcontextprotocol/server-elasticsearch",
+      "features": ["full-text search", "data indexing", "aggregations", "real-time analytics"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "ELASTICSEARCH_URL": "required"
+        }
+      }
+    },
+    {
+      "id": "google-drive-server",
+      "name": "Google Drive Server",
+      "description": "Access and manage Google Drive files and folders",
+      "version": "1.3.0",
+      "author": "Google Integration Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/google-drive",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "File System",
+      "tags": ["google-drive", "cloud-storage", "files", "collaboration"],
+      "installCommand": "npm install @modelcontextprotocol/server-google-drive",
+      "features": ["file upload/download", "folder management", "sharing controls", "version history"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "GOOGLE_DRIVE_CREDENTIALS": "required"
+        }
+      }
+    },
+    {
+      "id": "dropbox-server",
+      "name": "Dropbox Server",
+      "description": "Dropbox file storage and synchronization",
+      "version": "1.1.0",
+      "author": "Cloud Storage Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/dropbox",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "File System",
+      "tags": ["dropbox", "cloud-storage", "sync", "backup"],
+      "installCommand": "npm install @modelcontextprotocol/server-dropbox",
+      "features": ["file synchronization", "backup management", "sharing links", "metadata access"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "DROPBOX_ACCESS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "jenkins-server",
+      "name": "Jenkins Server",
+      "description": "CI/CD pipeline management with Jenkins",
+      "version": "1.2.0",
+      "author": "DevOps Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/jenkins",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "DevOps",
+      "tags": ["jenkins", "ci-cd", "builds", "automation"],
+      "installCommand": "npm install @modelcontextprotocol/server-jenkins",
+      "features": ["build management", "pipeline control", "job monitoring", "artifact handling"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "JENKINS_URL": "required",
+          "JENKINS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "gitlab-server",
+      "name": "GitLab Server",
+      "description": "GitLab repository and project management",
+      "version": "1.4.0",
+      "author": "Git Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/gitlab",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Development",
+      "tags": ["gitlab", "git", "repositories", "ci-cd"],
+      "installCommand": "npm install @modelcontextprotocol/server-gitlab",
+      "features": ["repository management", "merge requests", "CI/CD pipelines", "issue tracking"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "GITLAB_TOKEN": "required",
+          "GITLAB_URL": "required"
+        }
+      }
+    },
+    {
+      "id": "bitbucket-server",
+      "name": "Bitbucket Server",
+      "description": "Atlassian Bitbucket repository management",
+      "version": "1.0.0",
+      "author": "Atlassian Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/bitbucket",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Development",
+      "tags": ["bitbucket", "git", "atlassian", "repositories"],
+      "installCommand": "npm install @modelcontextprotocol/server-bitbucket",
+      "features": ["repository access", "pull requests", "branch management", "code review"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "BITBUCKET_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "trello-server",
+      "name": "Trello Server",
+      "description": "Trello board and card management for project organization",
+      "version": "1.0.0",
+      "author": "Project Management Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/trello",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Productivity",
+      "tags": ["trello", "kanban", "project-management", "boards"],
+      "installCommand": "npm install @modelcontextprotocol/server-trello",
+      "features": ["board management", "card operations", "list organization", "team collaboration"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "TRELLO_API_KEY": "required",
+          "TRELLO_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "asana-server",
+      "name": "Asana Server",
+      "description": "Asana task and project management integration",
+      "version": "1.1.0",
+      "author": "Task Management Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/asana",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Productivity",
+      "tags": ["asana", "tasks", "projects", "team"],
+      "installCommand": "npm install @modelcontextprotocol/server-asana",
+      "features": ["task creation", "project tracking", "team management", "deadline monitoring"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "ASANA_ACCESS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "discord-server",
+      "name": "Discord Server",
+      "description": "Discord bot integration for server and channel management",
+      "version": "1.0.0",
+      "author": "Community Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/discord",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Communication",
+      "tags": ["discord", "bot", "gaming", "community"],
+      "installCommand": "npm install @modelcontextprotocol/server-discord",
+      "features": ["message sending", "server management", "role handling", "voice channel control"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "DISCORD_BOT_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "telegram-server",
+      "name": "Telegram Server",
+      "description": "Telegram bot API integration for messaging",
+      "version": "1.2.0",
+      "author": "Messaging Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/telegram",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Communication",
+      "tags": ["telegram", "bot", "messaging", "automation"],
+      "installCommand": "npm install @modelcontextprotocol/server-telegram",
+      "features": ["message automation", "inline keyboards", "file sharing", "group management"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "TELEGRAM_BOT_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "teams-server",
+      "name": "Microsoft Teams Server",
+      "description": "Microsoft Teams integration for enterprise communication",
+      "version": "1.0.0",
+      "author": "Microsoft Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/teams",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Communication",
+      "tags": ["teams", "microsoft", "enterprise", "meetings"],
+      "installCommand": "npm install @modelcontextprotocol/server-teams",
+      "features": ["message posting", "meeting scheduling", "channel management", "file sharing"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "TEAMS_WEBHOOK_URL": "required"
+        }
+      }
+    },
+    {
+      "id": "twitter-server",
+      "name": "Twitter/X Server",
+      "description": "Twitter/X API integration for social media management",
+      "version": "2.0.0",
+      "author": "Social Media Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/twitter",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Social Media",
+      "tags": ["twitter", "x", "social-media", "posts"],
+      "installCommand": "npm install @modelcontextprotocol/server-twitter",
+      "features": ["tweet posting", "timeline reading", "user management", "trend analysis"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "TWITTER_API_KEY": "required",
+          "TWITTER_API_SECRET": "required"
+        }
+      }
+    },
+    {
+      "id": "linkedin-server",
+      "name": "LinkedIn Server",
+      "description": "LinkedIn API integration for professional networking",
+      "version": "1.0.0",
+      "author": "Professional Network Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/linkedin",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Social Media",
+      "tags": ["linkedin", "professional", "networking", "career"],
+      "installCommand": "npm install @modelcontextprotocol/server-linkedin",
+      "features": ["profile management", "post publishing", "connection handling", "job searching"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "LINKEDIN_ACCESS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "facebook-server",
+      "name": "Facebook Server",
+      "description": "Facebook Graph API integration for social media management",
+      "version": "1.1.0",
+      "author": "Meta Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/facebook",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Social Media",
+      "tags": ["facebook", "meta", "social-media", "graph-api"],
+      "installCommand": "npm install @modelcontextprotocol/server-facebook",
+      "features": ["page management", "post scheduling", "audience insights", "ad management"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "FACEBOOK_ACCESS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "instagram-server",
+      "name": "Instagram Server",
+      "description": "Instagram Basic Display API integration",
+      "version": "1.0.0",
+      "author": "Visual Media Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/instagram",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Social Media",
+      "tags": ["instagram", "photos", "visual", "social-media"],
+      "installCommand": "npm install @modelcontextprotocol/server-instagram",
+      "features": ["photo posting", "story management", "feed reading", "hashtag analysis"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "INSTAGRAM_ACCESS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "youtube-server",
+      "name": "YouTube Server",
+      "description": "YouTube Data API integration for video management",
+      "version": "1.3.0",
+      "author": "Video Platform Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/youtube",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Social Media",
+      "tags": ["youtube", "video", "content", "streaming"],
+      "installCommand": "npm install @modelcontextprotocol/server-youtube",
+      "features": ["video upload", "playlist management", "analytics", "comment moderation"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "YOUTUBE_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "spotify-server",
+      "name": "Spotify Server",
+      "description": "Spotify Web API integration for music management",
+      "version": "1.2.0",
+      "author": "Music Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/spotify",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Music & Audio",
+      "tags": ["spotify", "music", "playlists", "streaming"],
+      "installCommand": "npm install @modelcontextprotocol/server-spotify",
+      "features": ["playlist management", "track search", "playback control", "music recommendations"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "SPOTIFY_CLIENT_ID": "required",
+          "SPOTIFY_CLIENT_SECRET": "required"
+        }
+      }
+    },
+    {
+      "id": "soundcloud-server",
+      "name": "SoundCloud Server",
+      "description": "SoundCloud API integration for audio content",
+      "version": "1.0.0",
+      "author": "Audio Platform Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/soundcloud",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Music & Audio",
+      "tags": ["soundcloud", "audio", "podcast", "streaming"],
+      "installCommand": "npm install @modelcontextprotocol/server-soundcloud",
+      "features": ["track upload", "playlist creation", "audio streaming", "user management"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "SOUNDCLOUD_CLIENT_ID": "required"
+        }
+      }
+    },
+    {
+      "id": "figma-server",
+      "name": "Figma Server",
+      "description": "Figma API integration for design collaboration",
+      "version": "1.1.0",
+      "author": "Design Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/figma",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Design & Graphics",
+      "tags": ["figma", "design", "collaboration", "prototyping"],
+      "installCommand": "npm install @modelcontextprotocol/server-figma",
+      "features": ["file access", "component management", "design systems", "export functionality"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "FIGMA_ACCESS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "canva-server",
+      "name": "Canva Server",
+      "description": "Canva API integration for graphic design automation",
+      "version": "1.0.0",
+      "author": "Creative Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/canva",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Design & Graphics",
+      "tags": ["canva", "graphics", "templates", "automation"],
+      "installCommand": "npm install @modelcontextprotocol/server-canva",
+      "features": ["template access", "design creation", "brand management", "asset library"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "CANVA_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "adobe-server",
+      "name": "Adobe Creative Server",
+      "description": "Adobe Creative Cloud API integration",
+      "version": "1.0.0",
+      "author": "Adobe Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/adobe",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Design & Graphics",
+      "tags": ["adobe", "creative-cloud", "photoshop", "illustrator"],
+      "installCommand": "npm install @modelcontextprotocol/server-adobe",
+      "features": ["asset management", "file processing", "automation scripting", "cloud storage"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "ADOBE_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "shopify-server",
+      "name": "Shopify Server",
+      "description": "Shopify API integration for e-commerce management",
+      "version": "1.4.0",
+      "author": "E-commerce Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/shopify",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "E-commerce",
+      "tags": ["shopify", "e-commerce", "store", "products"],
+      "installCommand": "npm install @modelcontextprotocol/server-shopify",
+      "features": ["product management", "order processing", "inventory tracking", "customer management"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "SHOPIFY_ACCESS_TOKEN": "required",
+          "SHOPIFY_SHOP_DOMAIN": "required"
+        }
+      }
+    },
+    {
+      "id": "woocommerce-server",
+      "name": "WooCommerce Server",
+      "description": "WooCommerce REST API integration for WordPress e-commerce",
+      "version": "1.2.0",
+      "author": "WordPress Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/woocommerce",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "E-commerce",
+      "tags": ["woocommerce", "wordpress", "e-commerce", "online-store"],
+      "installCommand": "npm install @modelcontextprotocol/server-woocommerce",
+      "features": ["product catalog", "order management", "payment processing", "shipping integration"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "WOOCOMMERCE_CONSUMER_KEY": "required",
+          "WOOCOMMERCE_CONSUMER_SECRET": "required"
+        }
+      }
+    },
+    {
+      "id": "stripe-server",
+      "name": "Stripe Server",
+      "description": "Stripe payment processing API integration",
+      "version": "1.3.0",
+      "author": "Payment Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/stripe",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Finance",
+      "tags": ["stripe", "payments", "billing", "subscriptions"],
+      "installCommand": "npm install @modelcontextprotocol/server-stripe",
+      "features": ["payment processing", "subscription management", "invoice handling", "refund processing"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "STRIPE_SECRET_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "paypal-server",
+      "name": "PayPal Server",
+      "description": "PayPal API integration for payment processing",
+      "version": "1.1.0",
+      "author": "Financial Services Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/paypal",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Finance",
+      "tags": ["paypal", "payments", "transactions", "billing"],
+      "installCommand": "npm install @modelcontextprotocol/server-paypal",
+      "features": ["payment creation", "transaction tracking", "subscription billing", "dispute management"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "PAYPAL_CLIENT_ID": "required",
+          "PAYPAL_CLIENT_SECRET": "required"
+        }
+      }
+    },
+    {
+      "id": "quickbooks-server",
+      "name": "QuickBooks Server",
+      "description": "QuickBooks Online API integration for accounting",
+      "version": "1.0.0",
+      "author": "Accounting Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/quickbooks",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Finance",
+      "tags": ["quickbooks", "accounting", "invoicing", "financial"],
+      "installCommand": "npm install @modelcontextprotocol/server-quickbooks",
+      "features": ["invoice management", "expense tracking", "financial reporting", "tax preparation"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "QUICKBOOKS_CLIENT_ID": "required",
+          "QUICKBOOKS_CLIENT_SECRET": "required"
+        }
+      }
+    },
+    {
+      "id": "xero-server",
+      "name": "Xero Server",
+      "description": "Xero accounting API integration for small business",
+      "version": "1.0.0",
+      "author": "Small Business Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/xero",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Finance",
+      "tags": ["xero", "accounting", "bookkeeping", "business"],
+      "installCommand": "npm install @modelcontextprotocol/server-xero",
+      "features": ["bookkeeping automation", "invoice generation", "expense management", "bank reconciliation"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "XERO_CLIENT_ID": "required",
+          "XERO_CLIENT_SECRET": "required"
+        }
+      }
+    },
+    {
+      "id": "pandas-server",
+      "name": "Pandas Server",
+      "description": "Pandas data analysis and manipulation server",
+      "version": "1.0.0",
+      "author": "Data Science Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/pandas",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Data Science",
+      "tags": ["pandas", "data-analysis", "python", "dataframes"],
+      "installCommand": "pip install mcp-server-pandas",
+      "features": ["data manipulation", "statistical analysis", "data visualization", "file I/O"],
+      "requirements": {
+        "python": ">=3.8"
+      }
+    },
+    {
+      "id": "jupyter-server",
+      "name": "Jupyter Server",
+      "description": "Jupyter notebook execution and management",
+      "version": "1.2.0",
+      "author": "Scientific Computing Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/jupyter",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Data Science",
+      "tags": ["jupyter", "notebooks", "data-science", "research"],
+      "installCommand": "pip install mcp-server-jupyter",
+      "features": ["notebook execution", "kernel management", "cell operations", "output handling"],
+      "requirements": {
+        "python": ">=3.8"
+      }
+    },
+    {
+      "id": "matplotlib-server",
+      "name": "Matplotlib Server",
+      "description": "Data visualization with matplotlib and seaborn",
+      "version": "1.0.0",
+      "author": "Visualization Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/matplotlib",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Data Science",
+      "tags": ["matplotlib", "visualization", "plotting", "charts"],
+      "installCommand": "pip install mcp-server-matplotlib",
+      "features": ["chart creation", "plot customization", "data visualization", "export functionality"],
+      "requirements": {
+        "python": ">=3.8"
+      }
+    },
+    {
+      "id": "tensorflow-server",
+      "name": "TensorFlow Server",
+      "description": "TensorFlow machine learning model management",
+      "version": "1.0.0",
+      "author": "ML Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/tensorflow",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "AI/ML",
+      "tags": ["tensorflow", "machine-learning", "neural-networks", "deep-learning"],
+      "installCommand": "pip install mcp-server-tensorflow",
+      "features": ["model training", "inference", "model deployment", "tensor operations"],
+      "requirements": {
+        "python": ">=3.8"
+      }
+    },
+    {
+      "id": "pytorch-server",
+      "name": "PyTorch Server",
+      "description": "PyTorch deep learning framework integration",
+      "version": "1.0.0",
+      "author": "Deep Learning Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/pytorch",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "AI/ML",
+      "tags": ["pytorch", "deep-learning", "neural-networks", "research"],
+      "installCommand": "pip install mcp-server-pytorch",
+      "features": ["model development", "training loops", "inference", "tensor operations"],
+      "requirements": {
+        "python": ">=3.8"
+      }
+    },
+    {
+      "id": "huggingface-server",
+      "name": "Hugging Face Server",
+      "description": "Hugging Face model hub and transformers integration",
+      "version": "1.1.0",
+      "author": "NLP Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/huggingface",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "AI/ML",
+      "tags": ["huggingface", "transformers", "nlp", "models"],
+      "installCommand": "pip install mcp-server-huggingface",
+      "features": ["model loading", "inference", "tokenization", "fine-tuning"],
+      "requirements": {
+        "python": ">=3.8"
+      }
+    },
+    {
+      "id": "github-copilot-server",
+      "name": "GitHub Copilot Server",
+      "description": "GitHub Copilot API integration for AI-assisted coding",
+      "version": "1.0.0",
+      "author": "AI Coding Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/github-copilot",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "AI/ML",
+      "tags": ["github-copilot", "ai-coding", "code-completion", "programming"],
+      "installCommand": "npm install @modelcontextprotocol/server-github-copilot",
+      "features": ["code completion", "code suggestions", "documentation generation", "code review"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "GITHUB_COPILOT_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "unity-server",
+      "name": "Unity Server",
+      "description": "Unity game engine integration for game development",
+      "version": "1.0.0",
+      "author": "Game Development Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/unity",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Gaming",
+      "tags": ["unity", "game-development", "3d", "engine"],
+      "installCommand": "npm install @modelcontextprotocol/server-unity",
+      "features": ["project management", "asset handling", "build automation", "scene management"],
+      "requirements": {
+        "node": ">=16.0.0"
+      }
+    },
+    {
+      "id": "unreal-server",
+      "name": "Unreal Engine Server",
+      "description": "Unreal Engine integration for advanced game development",
+      "version": "1.0.0",
+      "author": "Epic Games Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/unreal",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Gaming",
+      "tags": ["unreal", "game-engine", "3d", "graphics"],
+      "installCommand": "npm install @modelcontextprotocol/server-unreal",
+      "features": ["blueprint management", "asset pipeline", "rendering control", "level design"],
+      "requirements": {
+        "node": ">=16.0.0"
+      }
+    },
+    {
+      "id": "steam-server",
+      "name": "Steam Server",
+      "description": "Steam Web API integration for gaming platform management",
+      "version": "1.0.0",
+      "author": "Gaming Platform Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/steam",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Gaming",
+      "tags": ["steam", "gaming", "platform", "achievements"],
+      "installCommand": "npm install @modelcontextprotocol/server-steam",
+      "features": ["user profiles", "game library", "achievement tracking", "friend management"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "STEAM_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "twitch-server",
+      "name": "Twitch Server",
+      "description": "Twitch API integration for streaming and gaming content",
+      "version": "1.1.0",
+      "author": "Streaming Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/twitch",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Gaming",
+      "tags": ["twitch", "streaming", "gaming", "live"],
+      "installCommand": "npm install @modelcontextprotocol/server-twitch",
+      "features": ["stream management", "chat moderation", "clip creation", "analytics"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "TWITCH_CLIENT_ID": "required",
+          "TWITCH_CLIENT_SECRET": "required"
+        }
+      }
+    },
+    {
+      "id": "prometheus-server",
+      "name": "Prometheus Server",
+      "description": "Prometheus monitoring and alerting integration",
+      "version": "1.0.0",
+      "author": "Monitoring Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/prometheus",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "DevOps",
+      "tags": ["prometheus", "monitoring", "metrics", "alerting"],
+      "installCommand": "npm install @modelcontextprotocol/server-prometheus",
+      "features": ["metric collection", "query execution", "alert management", "dashboard integration"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "PROMETHEUS_URL": "required"
+        }
+      }
+    },
+    {
+      "id": "grafana-server",
+      "name": "Grafana Server",
+      "description": "Grafana dashboard and visualization management",
+      "version": "1.0.0",
+      "author": "Visualization Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/grafana",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "DevOps",
+      "tags": ["grafana", "dashboards", "visualization", "monitoring"],
+      "installCommand": "npm install @modelcontextprotocol/server-grafana",
+      "features": ["dashboard creation", "panel management", "data source integration", "alert configuration"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "GRAFANA_URL": "required",
+          "GRAFANA_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "datadog-server",
+      "name": "Datadog Server",
+      "description": "Datadog monitoring and analytics platform integration",
+      "version": "1.0.0",
+      "author": "Observability Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/datadog",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "DevOps",
+      "tags": ["datadog", "monitoring", "apm", "logs"],
+      "installCommand": "npm install @modelcontextprotocol/server-datadog",
+      "features": ["metric tracking", "log management", "APM", "synthetic monitoring"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "DATADOG_API_KEY": "required",
+          "DATADOG_APP_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "newrelic-server",
+      "name": "New Relic Server",
+      "description": "New Relic application performance monitoring",
+      "version": "1.0.0",
+      "author": "Performance Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/newrelic",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "DevOps",
+      "tags": ["newrelic", "apm", "performance", "monitoring"],
+      "installCommand": "npm install @modelcontextprotocol/server-newrelic",
+      "features": ["application monitoring", "error tracking", "performance analysis", "alert management"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "NEWRELIC_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "hashivault-server",
+      "name": "HashiCorp Vault Server",
+      "description": "HashiCorp Vault secrets management integration",
+      "version": "1.0.0",
+      "author": "Security Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/hashivault",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Security",
+      "tags": ["vault", "secrets", "security", "hashicorp"],
+      "installCommand": "npm install @modelcontextprotocol/server-hashivault",
+      "features": ["secret storage", "access control", "encryption", "audit logging"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "VAULT_URL": "required",
+          "VAULT_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "1password-server",
+      "name": "1Password Server",
+      "description": "1Password secrets and password management",
+      "version": "1.0.0",
+      "author": "Password Security Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/1password",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Security",
+      "tags": ["1password", "passwords", "secrets", "security"],
+      "installCommand": "npm install @modelcontextprotocol/server-1password",
+      "features": ["password management", "secure notes", "team sharing", "audit logging"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "OP_SERVICE_ACCOUNT_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "okta-server",
+      "name": "Okta Server",
+      "description": "Okta identity and access management integration",
+      "version": "1.0.0",
+      "author": "Identity Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/okta",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Security",
+      "tags": ["okta", "identity", "sso", "authentication"],
+      "installCommand": "npm install @modelcontextprotocol/server-okta",
+      "features": ["user management", "SSO configuration", "group management", "access policies"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "OKTA_DOMAIN": "required",
+          "OKTA_API_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "auth0-server",
+      "name": "Auth0 Server",
+      "description": "Auth0 authentication and authorization platform",
+      "version": "1.0.0",
+      "author": "Auth Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/auth0",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Security",
+      "tags": ["auth0", "authentication", "authorization", "identity"],
+      "installCommand": "npm install @modelcontextprotocol/server-auth0",
+      "features": ["user authentication", "role management", "API security", "social login"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "AUTH0_DOMAIN": "required",
+          "AUTH0_CLIENT_ID": "required",
+          "AUTH0_CLIENT_SECRET": "required"
+        }
+      }
+    },
+    {
+      "id": "zapier-server",
+      "name": "Zapier Server",
+      "description": "Zapier automation and integration platform",
+      "version": "1.0.0",
+      "author": "Automation Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/zapier",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Automation",
+      "tags": ["zapier", "automation", "workflows", "integration"],
+      "installCommand": "npm install @modelcontextprotocol/server-zapier",
+      "features": ["workflow automation", "trigger management", "action execution", "app integration"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "ZAPIER_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "ifttt-server",
+      "name": "IFTTT Server",
+      "description": "IFTTT automation service integration",
+      "version": "1.0.0",
+      "author": "Smart Automation Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/ifttt",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Automation",
+      "tags": ["ifttt", "automation", "triggers", "smart-home"],
+      "installCommand": "npm install @modelcontextprotocol/server-ifttt",
+      "features": ["applet management", "trigger configuration", "action setup", "device integration"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "IFTTT_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "n8n-server",
+      "name": "n8n Server",
+      "description": "n8n workflow automation platform integration",
+      "version": "1.0.0",
+      "author": "Workflow Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/n8n",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Automation",
+      "tags": ["n8n", "workflows", "automation", "no-code"],
+      "installCommand": "npm install @modelcontextprotocol/server-n8n",
+      "features": ["workflow creation", "node management", "execution control", "data transformation"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "N8N_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "google-maps-server",
+      "name": "Google Maps Server",
+      "description": "Google Maps API integration for location services",
+      "version": "1.2.0",
+      "author": "Location Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/google-maps",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Travel & Maps",
+      "tags": ["google-maps", "location", "navigation", "geocoding"],
+      "installCommand": "npm install @modelcontextprotocol/server-google-maps",
+      "features": ["geocoding", "directions", "place search", "distance calculation"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "GOOGLE_MAPS_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "mapbox-server",
+      "name": "Mapbox Server",
+      "description": "Mapbox mapping and location platform integration",
+      "version": "1.0.0",
+      "author": "Mapping Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/mapbox",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Travel & Maps",
+      "tags": ["mapbox", "maps", "routing", "visualization"],
+      "installCommand": "npm install @modelcontextprotocol/server-mapbox",
+      "features": ["custom mapping", "route optimization", "geocoding", "spatial analysis"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "MAPBOX_ACCESS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "uber-server",
+      "name": "Uber Server",
+      "description": "Uber API integration for ride-sharing services",
+      "version": "1.0.0",
+      "author": "Transportation Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/uber",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Travel & Maps",
+      "tags": ["uber", "rideshare", "transportation", "booking"],
+      "installCommand": "npm install @modelcontextprotocol/server-uber",
+      "features": ["ride booking", "price estimation", "trip tracking", "driver management"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "UBER_CLIENT_ID": "required",
+          "UBER_CLIENT_SECRET": "required"
+        }
+      }
+    },
+    {
+      "id": "airbnb-server",
+      "name": "Airbnb Server",
+      "description": "Airbnb API integration for accommodation booking",
+      "version": "1.0.0",
+      "author": "Hospitality Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/airbnb",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Travel & Maps",
+      "tags": ["airbnb", "accommodation", "booking", "travel"],
+      "installCommand": "npm install @modelcontextprotocol/server-airbnb",
+      "features": ["property search", "booking management", "host communication", "review handling"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "AIRBNB_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "booking-server",
+      "name": "Booking.com Server",
+      "description": "Booking.com API integration for hotel reservations",
+      "version": "1.0.0",      "author": "Travel Tech Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/booking",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Travel & Maps",
+      "tags": ["booking", "hotels", "reservations", "travel"],
+      "installCommand": "npm install @modelcontextprotocol/server-booking",
+      "features": ["hotel search", "reservation management", "availability checking", "rate comparison"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "BOOKING_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "netlify-server",
+      "name": "Netlify Server",
+      "description": "Netlify deployment and site management platform",
+      "version": "1.0.0",
+      "author": "JAMstack Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/netlify",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "DevOps",
+      "tags": ["netlify", "deployment", "jamstack", "hosting"],
+      "installCommand": "npm install @modelcontextprotocol/server-netlify",
+      "features": ["site deployment", "form handling", "function management", "domain configuration"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "NETLIFY_ACCESS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "vercel-server",
+      "name": "Vercel Server",
+      "description": "Vercel deployment platform for frontend frameworks",
+      "version": "1.1.0",
+      "author": "Frontend Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/vercel",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "DevOps",
+      "tags": ["vercel", "deployment", "nextjs", "frontend"],
+      "installCommand": "npm install @modelcontextprotocol/server-vercel",
+      "features": ["project deployment", "serverless functions", "domain management", "analytics"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "VERCEL_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "heroku-server",
+      "name": "Heroku Server",
+      "description": "Heroku cloud platform application management",
+      "version": "1.0.0",
+      "author": "Cloud Platform Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/heroku",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Cloud Services",
+      "tags": ["heroku", "cloud", "paas", "deployment"],
+      "installCommand": "npm install @modelcontextprotocol/server-heroku",
+      "features": ["app deployment", "dyno management", "add-on configuration", "log streaming"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "HEROKU_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "digitalocean-server",
+      "name": "DigitalOcean Server",
+      "description": "DigitalOcean cloud infrastructure management",
+      "version": "1.0.0",
+      "author": "Cloud Infrastructure Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/digitalocean",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Cloud Services",
+      "tags": ["digitalocean", "droplets", "cloud", "infrastructure"],
+      "installCommand": "npm install @modelcontextprotocol/server-digitalocean",
+      "features": ["droplet management", "load balancer control", "domain configuration", "monitoring"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "DIGITALOCEAN_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "linode-server",
+      "name": "Linode Server",
+      "description": "Linode cloud computing platform integration",
+      "version": "1.0.0",
+      "author": "VPS Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/linode",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Cloud Services",
+      "tags": ["linode", "vps", "cloud", "hosting"],
+      "installCommand": "npm install @modelcontextprotocol/server-linode",
+      "features": ["instance management", "volume control", "networking", "backup management"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "LINODE_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "vultr-server",
+      "name": "Vultr Server",
+      "description": "Vultr cloud hosting platform management",
+      "version": "1.0.0",
+      "author": "Hosting Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/vultr",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Cloud Services",
+      "tags": ["vultr", "hosting", "vps", "cloud"],
+      "installCommand": "npm install @modelcontextprotocol/server-vultr",
+      "features": ["server deployment", "snapshot management", "firewall rules", "load balancing"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "VULTR_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "cloudflare-server",
+      "name": "Cloudflare Server",
+      "description": "Cloudflare CDN and security services management",
+      "version": "1.2.0",
+      "author": "CDN Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/cloudflare",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Web Services",
+      "tags": ["cloudflare", "cdn", "security", "dns"],
+      "installCommand": "npm install @modelcontextprotocol/server-cloudflare",
+      "features": ["DNS management", "security rules", "analytics", "worker scripts"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "CLOUDFLARE_API_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "sendgrid-server",
+      "name": "SendGrid Server",
+      "description": "SendGrid email delivery service integration",
+      "version": "1.1.0",
+      "author": "Email Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/sendgrid",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Communication",
+      "tags": ["sendgrid", "email", "transactional", "marketing"],
+      "installCommand": "npm install @modelcontextprotocol/server-sendgrid",
+      "features": ["email sending", "template management", "analytics", "list management"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "SENDGRID_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "mailchimp-server",
+      "name": "Mailchimp Server",
+      "description": "Mailchimp email marketing platform integration",
+      "version": "1.0.0",
+      "author": "Marketing Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/mailchimp",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Communication",
+      "tags": ["mailchimp", "email-marketing", "campaigns", "automation"],
+      "installCommand": "npm install @modelcontextprotocol/server-mailchimp",
+      "features": ["campaign management", "audience segmentation", "automation", "reporting"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "MAILCHIMP_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "typeform-server",
+      "name": "Typeform Server",
+      "description": "Typeform survey and form builder integration",
+      "version": "1.0.0",
+      "author": "Forms Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/typeform",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Productivity",
+      "tags": ["typeform", "forms", "surveys", "data-collection"],
+      "installCommand": "npm install @modelcontextprotocol/server-typeform",
+      "features": ["form creation", "response collection", "analytics", "integration webhooks"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "TYPEFORM_ACCESS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "airtable-server",
+      "name": "Airtable Server",
+      "description": "Airtable database and collaboration platform",
+      "version": "1.2.0",
+      "author": "Database Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/airtable",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Database",
+      "tags": ["airtable", "database", "collaboration", "no-code"],
+      "installCommand": "npm install @modelcontextprotocol/server-airtable",
+      "features": ["record management", "base operations", "formula calculations", "attachment handling"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "AIRTABLE_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "contentful-server",
+      "name": "Contentful Server",
+      "description": "Contentful headless CMS integration",
+      "version": "1.1.0",
+      "author": "CMS Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/contentful",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Web Services",
+      "tags": ["contentful", "cms", "headless", "content"],
+      "installCommand": "npm install @modelcontextprotocol/server-contentful",
+      "features": ["content management", "asset delivery", "localization", "webhook integration"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "CONTENTFUL_SPACE_ID": "required",
+          "CONTENTFUL_ACCESS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "strapi-server",
+      "name": "Strapi Server",
+      "description": "Strapi headless CMS and API platform",
+      "version": "1.0.0",
+      "author": "Open Source CMS Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/strapi",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Web Services",
+      "tags": ["strapi", "cms", "api", "content-management"],
+      "installCommand": "npm install @modelcontextprotocol/server-strapi",
+      "features": ["content types", "API generation", "plugin system", "role management"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "STRAPI_URL": "required",
+          "STRAPI_API_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "wordpress-server",
+      "name": "WordPress Server",
+      "description": "WordPress CMS and REST API integration",
+      "version": "1.3.0",
+      "author": "WordPress Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/wordpress",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Web Services",
+      "tags": ["wordpress", "cms", "blog", "content"],
+      "installCommand": "npm install @modelcontextprotocol/server-wordpress",
+      "features": ["post management", "media library", "user management", "plugin integration"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "WORDPRESS_URL": "required",
+          "WORDPRESS_USERNAME": "required",
+          "WORDPRESS_PASSWORD": "required"
+        }
+      }
+    },
+    {
+      "id": "ghost-server",
+      "name": "Ghost Server",
+      "description": "Ghost publishing platform and blogging CMS",
+      "version": "1.0.0",
+      "author": "Publishing Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/ghost",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Web Services",
+      "tags": ["ghost", "blogging", "publishing", "content"],
+      "installCommand": "npm install @modelcontextprotocol/server-ghost",
+      "features": ["post publishing", "member management", "newsletter integration", "theme customization"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "GHOST_URL": "required",
+          "GHOST_ADMIN_API_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "medium-server",
+      "name": "Medium Server",
+      "description": "Medium publishing platform integration",
+      "version": "1.0.0",
+      "author": "Content Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/medium",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Social Media",
+      "tags": ["medium", "publishing", "articles", "blogging"],
+      "installCommand": "npm install @modelcontextprotocol/server-medium",
+      "features": ["article publishing", "user management", "publication handling", "stats tracking"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "MEDIUM_ACCESS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "reddit-server",
+      "name": "Reddit Server",
+      "description": "Reddit API integration for social news platform",
+      "version": "1.0.0",
+      "author": "Social Platform Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/reddit",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Social Media",
+      "tags": ["reddit", "social-news", "communities", "discussion"],
+      "installCommand": "npm install @modelcontextprotocol/server-reddit",
+      "features": ["post submission", "comment management", "subreddit moderation", "user interaction"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "REDDIT_CLIENT_ID": "required",
+          "REDDIT_CLIENT_SECRET": "required"
+        }
+      }
+    },
+    {
+      "id": "hackernews-server",
+      "name": "Hacker News Server",
+      "description": "Hacker News API integration for tech news aggregation",
+      "version": "1.0.0",
+      "author": "Tech News Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/hackernews",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Social Media",
+      "tags": ["hackernews", "tech-news", "aggregation", "discussion"],
+      "installCommand": "npm install @modelcontextprotocol/server-hackernews",
+      "features": ["story submission", "comment tracking", "user profiles", "trending analysis"],
+      "requirements": {
+        "node": ">=16.0.0"
+      }
+    },
+    {
+      "id": "mastodon-server",
+      "name": "Mastodon Server",
+      "description": "Mastodon decentralized social network integration",
+      "version": "1.0.0",
+      "author": "Decentralized Social Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/mastodon",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Social Media",
+      "tags": ["mastodon", "fediverse", "decentralized", "social"],
+      "installCommand": "npm install @modelcontextprotocol/server-mastodon",
+      "features": ["toot publishing", "timeline reading", "follow management", "instance interaction"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "MASTODON_ACCESS_TOKEN": "required",
+          "MASTODON_INSTANCE_URL": "required"
+        }
+      }
+    },
+    {
+      "id": "bluesky-server",
+      "name": "Bluesky Server",
+      "description": "Bluesky social network protocol integration",
+      "version": "1.0.0",
+      "author": "AT Protocol Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/bluesky",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Social Media",
+      "tags": ["bluesky", "at-protocol", "social", "decentralized"],
+      "installCommand": "npm install @modelcontextprotocol/server-bluesky",
+      "features": ["post creation", "feed reading", "profile management", "network exploration"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "BLUESKY_HANDLE": "required",
+          "BLUESKY_PASSWORD": "required"
+        }
+      }
+    },
+    {
+      "id": "threadsnet-server",
+      "name": "Threads Server",
+      "description": "Meta Threads social network integration",
+      "version": "1.0.0",
+      "author": "Meta Social Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/threads",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Social Media",
+      "tags": ["threads", "meta", "social", "text-based"],
+      "installCommand": "npm install @modelcontextprotocol/server-threads",
+      "features": ["thread posting", "reply management", "profile interaction", "content sharing"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "THREADS_ACCESS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "tiktok-server",
+      "name": "TikTok Server",
+      "description": "TikTok API integration for short-form video content",
+      "version": "1.0.0",
+      "author": "Video Content Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/tiktok",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Social Media",
+      "tags": ["tiktok", "video", "short-form", "social"],
+      "installCommand": "npm install @modelcontextprotocol/server-tiktok",
+      "features": ["video upload", "user profiles", "trend analysis", "hashtag tracking"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "TIKTOK_ACCESS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "pinterest-server",
+      "name": "Pinterest Server",
+      "description": "Pinterest visual discovery platform integration",
+      "version": "1.0.0",
+      "author": "Visual Discovery Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/pinterest",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Social Media",
+      "tags": ["pinterest", "visual", "discovery", "pins"],
+      "installCommand": "npm install @modelcontextprotocol/server-pinterest",
+      "features": ["pin creation", "board management", "trend tracking", "audience insights"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "PINTEREST_ACCESS_TOKEN": "required"
+        }
+      }
+    },
+    {
+      "id": "snapchat-server",
+      "name": "Snapchat Server",
+      "description": "Snapchat Ads API and platform integration",
+      "version": "1.0.0",
+      "author": "Ephemeral Media Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/snapchat",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Social Media",
+      "tags": ["snapchat", "ephemeral", "ads", "stories"],
+      "installCommand": "npm install @modelcontextprotocol/server-snapchat",
+      "features": ["ad management", "story analytics", "audience targeting", "creative optimization"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "SNAPCHAT_CLIENT_ID": "required",
+          "SNAPCHAT_CLIENT_SECRET": "required"
+        }
+      }
+    },
+    {
+      "id": "square-server",
+      "name": "Square Server",
+      "description": "Square payment processing and point-of-sale integration",
+      "version": "1.0.0",
+      "author": "POS Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/square",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Finance",
+      "tags": ["square", "pos", "payments", "retail"],
+      "installCommand": "npm install @modelcontextprotocol/server-square",
+      "features": ["payment processing", "inventory management", "customer profiles", "analytics"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "SQUARE_ACCESS_TOKEN": "required",
+          "SQUARE_APPLICATION_ID": "required"
+        }
+      }
+    },
+    {
+      "id": "klarna-server",
+      "name": "Klarna Server",
+      "description": "Klarna buy-now-pay-later payment integration",
+      "version": "1.0.0",
+      "author": "BNPL Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/klarna",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Finance",
+      "tags": ["klarna", "bnpl", "payments", "installments"],
+      "installCommand": "npm install @modelcontextprotocol/server-klarna",
+      "features": ["session creation", "order management", "payment tracking", "customer communication"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "KLARNA_USERNAME": "required",
+          "KLARNA_PASSWORD": "required"
+        }
+      }
+    },
+    {
+      "id": "affirm-server",
+      "name": "Affirm Server",
+      "description": "Affirm financing and payment solutions integration",
+      "version": "1.0.0",
+      "author": "Financing Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/affirm",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Finance",
+      "tags": ["affirm", "financing", "payments", "credit"],
+      "installCommand": "npm install @modelcontextprotocol/server-affirm",
+      "features": ["loan creation", "payment tracking", "credit decisions", "merchant integration"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "AFFIRM_PUBLIC_KEY": "required",
+          "AFFIRM_PRIVATE_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "plaid-server",
+      "name": "Plaid Server",
+      "description": "Plaid financial data aggregation and banking API",
+      "version": "1.1.0",
+      "author": "Fintech Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/plaid",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Finance",
+      "tags": ["plaid", "banking", "financial-data", "aggregation"],
+      "installCommand": "npm install @modelcontextprotocol/server-plaid",
+      "features": ["account linking", "transaction data", "balance checking", "identity verification"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "PLAID_CLIENT_ID": "required",
+          "PLAID_SECRET": "required"
+        }
+      }
+    },
+    {
+      "id": "yodlee-server",
+      "name": "Yodlee Server",
+      "description": "Yodlee financial data aggregation platform",
+      "version": "1.0.0",
+      "author": "Data Aggregation Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/yodlee",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Finance",
+      "tags": ["yodlee", "financial-data", "aggregation", "banking"],
+      "installCommand": "npm install @modelcontextprotocol/server-yodlee",
+      "features": ["data aggregation", "account verification", "transaction categorization", "credit monitoring"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "YODLEE_CLIENT_ID": "required",
+          "YODLEE_SECRET": "required"
+        }
+      }
+    },
+    {
+      "id": "mint-server",
+      "name": "Mint Server",
+      "description": "Mint personal finance management integration",
+      "version": "1.0.0",
+      "author": "Personal Finance Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/mint",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Finance",
+      "tags": ["mint", "personal-finance", "budgeting", "tracking"],
+      "installCommand": "npm install @modelcontextprotocol/server-mint",
+      "features": ["budget tracking", "expense categorization", "goal setting", "financial insights"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "MINT_USERNAME": "required",
+          "MINT_PASSWORD": "required"
+        }
+      }
+    },
+    {
+      "id": "coinbase-server",
+      "name": "Coinbase Server",
+      "description": "Coinbase cryptocurrency exchange and wallet integration",
+      "version": "1.1.0",
+      "author": "Crypto Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/coinbase",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Finance",
+      "tags": ["coinbase", "cryptocurrency", "trading", "wallet"],
+      "installCommand": "npm install @modelcontextprotocol/server-coinbase",
+      "features": ["trading operations", "wallet management", "price tracking", "portfolio analysis"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "COINBASE_API_KEY": "required",
+          "COINBASE_API_SECRET": "required"
+        }
+      }
+    },
+    {
+      "id": "binance-server",
+      "name": "Binance Server",
+      "description": "Binance cryptocurrency exchange API integration",
+      "version": "1.0.0",
+      "author": "Trading Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/binance",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Finance",
+      "tags": ["binance", "cryptocurrency", "trading", "exchange"],
+      "installCommand": "npm install @modelcontextprotocol/server-binance",
+      "features": ["spot trading", "futures trading", "market data", "account management"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "BINANCE_API_KEY": "required",
+          "BINANCE_SECRET_KEY": "required"
+        }
+      }
+    },
+    {
+      "id": "kraken-server",
+      "name": "Kraken Server",
+      "description": "Kraken cryptocurrency exchange platform integration",
+      "version": "1.0.0",
+      "author": "Exchange Team",
+      "homepage": "https://github.com/modelcontextprotocol/servers/tree/main/src/kraken",
+      "repository": "https://github.com/modelcontextprotocol/servers",
+      "category": "Finance",
+      "tags": ["kraken", "cryptocurrency", "trading", "security"],
+      "installCommand": "npm install @modelcontextprotocol/server-kraken",
+      "features": ["secure trading", "margin trading", "staking", "advanced orders"],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "KRAKEN_API_KEY": "required",
+          "KRAKEN_PRIVATE_KEY": "required"
+        }
+      }
+    }
+  ]
+}
