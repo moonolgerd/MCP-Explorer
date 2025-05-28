@@ -3,12 +3,41 @@
   "displayName": "MCP Explorer",
   "description": "Find and install Model Context Protocol (MCP) servers for VS Code",
   "version": "0.0.1",
+  "publisher": "mcp-explorer-publisher",
+  "author": {
+    "name": "Your Name"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/mcp-explorer.git"
+  },
+  "homepage": "https://github.com/your-username/mcp-explorer#readme",
+  "bugs": {
+    "url": "https://github.com/your-username/mcp-explorer/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "servers",
+    "extension",
+    "productivity",
+    "automation",
+    "development-tools",
+    "package-manager"
+  ],
   "engines": {
     "vscode": "^1.100.0"
   },
   "categories": [
+    "Extension Packs",
     "Other"
   ],
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
   "main": "./dist/extension.js",
   "contributes": {
     "views": {
