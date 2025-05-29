@@ -25,6 +25,10 @@ export interface McpServer {
     isInstalled?: boolean;
     installPath?: string;
     userConfigId?: string; // ID used in user's VS Code settings
+    // Direct configuration properties
+    command?: string;
+    args?: string[];
+    mcpConfig?: McpServerConfiguration;
 }
 
 /**
@@ -47,6 +51,16 @@ export enum InstallationStatus {
     Installed = 'installed',
     Failed = 'failed',
     Updating = 'updating'
+}
+
+/**
+ * MCP Server configuration for VS Code settings
+ */
+export interface McpServerConfiguration {
+    command: string;
+    args: string[];
+    type: 'stdio';
+    env?: Record<string, string>;
 }
 
 /**

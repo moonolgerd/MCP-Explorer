@@ -33,7 +33,6 @@
 This extension contributes the following settings:
 
 * `mcpExplorer.serverRegistry`: URL or path to the MCP server registry JSON file (default: local comprehensive registry)
-* `mcpExplorer.installPath`: Path where MCP servers will be installed (default: ~/.mcp)
 * `mcpExplorer.autoRefresh`: Automatically refresh the server list on startup (default: true)
 
 ## Getting Started
@@ -64,6 +63,17 @@ The MCP Explorer shows servers organized by categories. Expand any category to s
 2. Click the **+** (install) button next to the server name
 3. The extension will handle the installation process
 4. You'll see a progress notification during installation
+5. If installation fails, you'll get detailed error information with options to:
+   - **Show Details**: View full error logs in output channel
+   - **Retry**: Attempt installation again
+   - **Dismiss**: Close the notification
+
+### Error Handling
+The extension provides comprehensive error handling for installation failures:
+- **Detailed Error Messages**: Shows specific reasons for installation failures
+- **Full Error Logs**: Access complete installation logs through "Show Details"
+- **Automatic Retry**: Easy retry functionality for transient issues
+- **Smart Error Parsing**: Extracts meaningful error information from command output
 
 ### Configuring Servers
 1. Right-click on an installed server
@@ -76,8 +86,12 @@ Model Context Protocol (MCP) is an open standard for connecting AI assistants to
 
 ## Known Issues
 
-- Installation progress may not be accurate for all server types
-- Some servers may require manual configuration after installation
+- Some servers may require specific system dependencies (Node.js, Python, etc.)
+- Installation of certain packages may require elevated permissions
+- Network connectivity issues may cause installation timeouts
+- Some servers may need manual configuration after successful installation
+
+All installation errors are now captured and displayed with detailed information to help troubleshoot issues.
 
 ## Release Notes
 

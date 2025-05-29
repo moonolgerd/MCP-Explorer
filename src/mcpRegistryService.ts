@@ -21,37 +21,20 @@ export class McpRegistryService {
         if (!force && this.lastFetch && Date.now() - this.lastFetch.getTime() < 5 * 60 * 1000) {
             return this.servers;
         }        try {
-            const config = vscode.workspace.getConfiguration('mcpExplorer');
-            const registryUrl = config.get<string>('serverRegistry') || 
-                'https://raw.githubusercontent.com/modelcontextprotocol/servers/main/registry.json';            // First try to load from local registry file
-            try {
-                const fs = require('fs');
-                const path = require('path');
-                // The registry file is in the extension root, not in src
-                const localRegistryPath = path.join(this.context.extensionPath, 'mcp-servers-registry.json');
-                
-                if (fs.existsSync(localRegistryPath)) {
-                    const localRegistry = JSON.parse(fs.readFileSync(localRegistryPath, 'utf8')) as McpRegistry;
-                    this.servers = localRegistry.servers || [];
-                    this.lastFetch = new Date();
-                    console.log(`Loaded ${this.servers.length} servers from local registry`);
-                    this._onDidChangeServers.fire(this.servers);
-                } else {
-                    throw new Error('Local registry not found');
-                }
-            } catch (localError) {
-                console.log('Local registry not available, trying remote registry:', localError);
-                
-                // Fallback to remote registry
-                const response = await fetch(registryUrl);
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch registry: ${response.statusText}`);
-                }
-
-                const registry = await response.json() as McpRegistry;
-                this.servers = registry.servers || [];
+            const fs = require('fs');
+            const path = require('path');
+            // The registry file is in the extension root, not in src
+            const localRegistryPath = path.join(this.context.extensionPath, 'mcp-servers-registry.json');
+            
+            if (fs.existsSync(localRegistryPath)) {
+                const localRegistry = JSON.parse(fs.readFileSync(localRegistryPath, 'utf8')) as McpRegistry;
+                this.servers = localRegistry.servers || [];
                 this.lastFetch = new Date();
-            }            // Check installation status for each server
+                console.log(`Loaded ${this.servers.length} servers from local registry`);
+                this._onDidChangeServers.fire(this.servers);
+            } else {
+                throw new Error('Local registry not found');
+            }// Check installation status for each server
             await this.updateInstallationStatus();
 
             // Sync with user's VS Code configuration
@@ -160,16 +143,36 @@ export class McpRegistryService {
             // Fallback to just checking configuration
             return this.isServerConfigured(server);
         }
-    }
-
-    /**
+    }    /**
      * Checks if a server is configured in VS Code MCP settings
      */
     private isServerConfigured(server: McpServer): boolean {
         try {
             const config = vscode.workspace.getConfiguration('mcp');
             const currentServers = config.get<any>('servers') || {};
-            return !!currentServers[server.id];
+            
+            // Check with original ID
+            if (currentServers[server.id]) {
+                return true;
+            }
+            
+            // Check with userConfigId if available
+            if (server.userConfigId && currentServers[server.userConfigId]) {
+                return true;
+            }
+            
+            // Check with cleaned ID (without '-server' suffix)
+            let configId = server.id;
+            if (configId.endsWith('-server')) {
+                configId = configId.slice(0, -7);
+                if (currentServers[configId]) {
+                    return true;
+                }
+            }
+            
+            // Check if any configured server matches this server
+            const serverIds = Object.keys(currentServers);
+            return this.matchServerWithUserConfig(server, serverIds);
         } catch (error) {
             console.error(`Failed to check configuration for ${server.name}:`, error);
             return false;
@@ -202,104 +205,11 @@ export class McpRegistryService {
      */
     getServerById(id: string): McpServer | undefined {
         return this.servers.find(server => server.id === id);
-    }
-
-    /**
+    }    /**
      * Get sample servers for demo/fallback purposes
      */
     private getSampleServers(): McpServer[] {
-        return [
-            {
-                id: 'filesystem-server',
-                name: 'Filesystem Server',
-                description: 'Access and manipulate files and directories on the local filesystem',
-                version: '1.0.0',
-                author: 'MCP Team',
-                homepage: 'https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem',
-                repository: 'https://github.com/modelcontextprotocol/servers',
-                category: 'File System',
-                tags: ['filesystem', 'files', 'directories'],
-                installCommand: 'npm install @modelcontextprotocol/server-filesystem',
-                requirements: {
-                    node: '>=18.0.0'
-                }
-            },
-            {
-                id: 'github-server',
-                name: 'GitHub Server',
-                description: 'Interact with GitHub repositories, issues, and pull requests',
-                version: '2.1.0',
-                author: 'GitHub',
-                homepage: 'https://github.com/modelcontextprotocol/servers/tree/main/src/github',
-                repository: 'https://github.com/modelcontextprotocol/servers',
-                category: 'Development',
-                tags: ['github', 'git', 'repositories', 'issues'],
-                installCommand: 'npm install @modelcontextprotocol/server-github',
-                requirements: {
-                    node: '>=16.0.0'
-                }
-            },
-            {
-                id: 'sqlite-server',
-                name: 'SQLite Server',
-                description: 'Query and manipulate SQLite databases',
-                version: '1.2.3',
-                author: 'Database Team',
-                homepage: 'https://github.com/modelcontextprotocol/servers/tree/main/src/sqlite',
-                repository: 'https://github.com/modelcontextprotocol/servers',
-                category: 'Database',
-                tags: ['sqlite', 'database', 'sql', 'query'],
-                installCommand: 'npm install @modelcontextprotocol/server-sqlite',
-                requirements: {
-                    node: '>=18.0.0'
-                }
-            },
-            {
-                id: 'web-search-server',
-                name: 'Web Search Server',
-                description: 'Search the web using various search engines',
-                version: '0.9.1',
-                author: 'Search Team',
-                homepage: 'https://github.com/modelcontextprotocol/servers/tree/main/src/web-search',
-                repository: 'https://github.com/modelcontextprotocol/servers',
-                category: 'Search',
-                tags: ['web', 'search', 'internet', 'query'],
-                installCommand: 'pip install mcp-server-web-search',
-                requirements: {
-                    python: '>=3.8'
-                }
-            },
-            {
-                id: 'docker-server',
-                name: 'Docker Server',
-                description: 'Manage Docker containers and images',
-                version: '1.5.0',
-                author: 'DevOps Team',
-                homepage: 'https://github.com/modelcontextprotocol/servers/tree/main/src/docker',
-                repository: 'https://github.com/modelcontextprotocol/servers',
-                category: 'DevOps',
-                tags: ['docker', 'containers', 'images', 'deployment'],
-                installCommand: 'npm install @modelcontextprotocol/server-docker',
-                requirements: {
-                    node: '>=18.0.0'
-                }
-            },
-            {
-                id: 'calendar-server',
-                name: 'Calendar Server',
-                description: 'Access and manage calendar events and schedules',
-                version: '2.0.0',
-                author: 'Productivity Team',
-                homepage: 'https://github.com/modelcontextprotocol/servers/tree/main/src/calendar',
-                repository: 'https://github.com/modelcontextprotocol/servers',
-                category: 'Productivity',
-                tags: ['calendar', 'events', 'scheduling', 'time'],
-                installCommand: 'pip install mcp-server-calendar',
-                requirements: {
-                    python: '>=3.9'
-                }
-            }
-        ];
+        return [];
     }
 
     /**
@@ -393,8 +303,7 @@ export class McpRegistryService {
 	/**
 	 * Check if a server matches any user configuration
 	 */
-	private matchServerWithUserConfig(server: McpServer, userServerIds: string[]): boolean {
-		return userServerIds.some(userId => {
+	private matchServerWithUserConfig(server: McpServer, userServerIds: string[]): boolean {		return userServerIds.some(userId => {
 			// Exact ID match
 			if (userId === server.id) {
 				return true;
@@ -417,20 +326,6 @@ export class McpRegistryService {
 				return true;
 			}
 			
-			// Special cases for common patterns
-			if (server.name.toLowerCase().includes('figma') && userIdNormalized.includes('figma')) {
-				return true;
-			}
-			if (server.name.toLowerCase().includes('travel') && userIdNormalized.includes('travel')) {
-				return true;
-			}
-			if (server.name.toLowerCase().includes('playwright') && userIdNormalized.includes('playwright')) {
-				return true;
-			}
-			if (server.name.toLowerCase().includes('kubernetes') && userIdNormalized.includes('kubernetes')) {
-				return true;
-			}
-			
 			return false;
 		});
 	}
@@ -438,8 +333,7 @@ export class McpRegistryService {
 	/**
 	 * Find the matching user config ID for a server
 	 */
-	private findMatchingUserConfigId(server: McpServer, userServerIds: string[]): string | undefined {
-		return userServerIds.find(userId => {
+	private findMatchingUserConfigId(server: McpServer, userServerIds: string[]): string | undefined {		return userServerIds.find(userId => {
 			if (userId === server.id) {
 				return true;
 			}
@@ -457,20 +351,6 @@ export class McpRegistryService {
 				return true;
 			}
 			
-			// Special cases
-			if (server.name.toLowerCase().includes('figma') && userIdNormalized.includes('figma')) {
-				return true;
-			}
-			if (server.name.toLowerCase().includes('travel') && userIdNormalized.includes('travel')) {
-				return true;
-			}
-			if (server.name.toLowerCase().includes('playwright') && userIdNormalized.includes('playwright')) {
-				return true;
-			}
-			if (server.name.toLowerCase().includes('kubernetes') && userIdNormalized.includes('kubernetes')) {
-				return true;
-			}
-			
 			return false;
 		});
 	}
@@ -483,5 +363,69 @@ export class McpRegistryService {
 			.split(/[-_]/)
 			.map(word => word.charAt(0).toUpperCase() + word.slice(1))
 			.join(' ');
+	}
+
+	/**
+	 * Handle configuration changes - refresh server status after MCP config changes
+	 */
+	async onConfigurationChanged(): Promise<void> {
+		try {
+			console.log('MCP configuration changed, refreshing server status...');
+			
+			// Re-sync with user configuration
+			await this.syncWithUserConfiguration();
+			
+			// Update installation status for all servers
+			await this.updateInstallationStatus();
+			
+			// Fire change event to update UI
+			this._onDidChangeServers.fire(this.servers);
+			
+			console.log('Server status refresh completed after configuration change');
+		} catch (error) {
+			console.error('Failed to refresh server status after configuration change:', error);
+		}
+	}
+
+	/**
+	 * Remove a server from the registry by ID
+	 * This is called when a server is removed from configuration
+	 */
+	async removeServerFromRegistry(serverId: string): Promise<void> {
+		try {
+			const serverIndex = this.servers.findIndex(server => 
+				server.id === serverId || 
+				server.userConfigId === serverId ||
+				(server.id.endsWith('-server') && server.id.slice(0, -7) === serverId)
+			);
+			
+			if (serverIndex !== -1) {
+				const server = this.servers[serverIndex];
+				
+				// If this is a user-configured server not in the original registry, remove it completely
+				if (server.category === 'User Configured') {
+					this.servers.splice(serverIndex, 1);
+					console.log(`Removed user-configured server '${serverId}' from registry`);
+				} else {
+					// For registry servers, just mark as not installed and clear userConfigId
+					server.isInstalled = false;
+					server.userConfigId = undefined;
+					console.log(`Updated installation status for server '${serverId}'`);
+				}
+				
+				// Fire change event to update UI
+				this._onDidChangeServers.fire(this.servers);
+			}
+		} catch (error) {
+			console.error(`Failed to remove server '${serverId}' from registry:`, error);
+		}
+	}
+
+	/**
+	 * Refresh server status after configuration changes
+	 * This is an alias for onConfigurationChanged for backward compatibility
+	 */
+	async refreshAfterConfigurationChange(): Promise<void> {
+		await this.onConfigurationChanged();
 	}
 }

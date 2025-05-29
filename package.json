@@ -2,7 +2,7 @@
   "name": "mcp-explorer",
   "displayName": "MCP Explorer",
   "description": "Find and install Model Context Protocol (MCP) servers for VS Code",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "moonolgerdai",
   "author": {
     "name": "moonolgerd"
@@ -110,11 +110,24 @@
         "command": "mcpExplorer.syncWithUserConfig",
         "title": "Sync with User Configuration",
         "icon": "$(sync)"
-      },
-      {
+      },      {
         "command": "mcpExplorer.showUserConfiguredServers",
         "title": "Show User Configured Servers",
         "icon": "$(account)"
+      },      {
+        "command": "mcpExplorer.migrateMcpConfig",
+        "title": "Migrate MCP Configuration",
+        "icon": "$(arrow-up)"
+      },
+      {
+        "command": "mcpExplorer.removeMcpServer",
+        "title": "Remove MCP Server",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "mcpExplorer.removeAllMcpServers",
+        "title": "Clear All MCP Servers",
+        "icon": "$(clear-all)"
       }
     ],
     "menus": {
@@ -158,11 +171,20 @@
           "command": "mcpExplorer.syncWithUserConfig",
           "when": "view == mcpExplorer",
           "group": "user"
-        },
-        {
+        },        {
           "command": "mcpExplorer.showUserConfiguredServers",
           "when": "view == mcpExplorer",
           "group": "user"
+        },
+        {
+          "command": "mcpExplorer.removeMcpServer",
+          "when": "view == mcpExplorer",
+          "group": "management"
+        },
+        {
+          "command": "mcpExplorer.removeAllMcpServers",
+          "when": "view == mcpExplorer",
+          "group": "management"
         }
       ],
       "view/item/context": [
@@ -180,11 +202,15 @@
           "command": "mcpExplorer.configure",
           "when": "view == mcpExplorer && viewItem == installedMcpServer",
           "group": "inline"
-        },
-        {
+        },        {
           "command": "mcpExplorer.viewDetails",
           "when": "view == mcpExplorer && viewItem =~ /mcpServer/",
           "group": "inline"
+        },
+        {
+          "command": "mcpExplorer.removeMcpServer",
+          "when": "view == mcpExplorer && viewItem == installedMcpServer",
+          "group": "configuration"
         }
       ]
     },
@@ -195,11 +221,6 @@
           "type": "string",
           "default": "./mcp-servers-registry.json",
           "description": "URL or path to the MCP server registry JSON file"
-        },
-        "mcpExplorer.installPath": {
-          "type": "string",
-          "default": "~/.mcp",
-          "description": "Path where MCP servers will be installed"
         },
         "mcpExplorer.autoRefresh": {
           "type": "boolean",
