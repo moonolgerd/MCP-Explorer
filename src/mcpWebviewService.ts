@@ -240,7 +240,7 @@ export class McpWebviewService {
             <div class="header">
                 <div>
                     <h1>${server.name}</h1>
-                    <div class="version">Version ${server.version}</div>
+                    <div>${server.id}</div> <div class="version">Version ${server.version}</div>
                     ${statusBadge}
                 </div>
             </div>

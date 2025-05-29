@@ -436,7 +436,7 @@ export class McpInstallationService {
      */
     private async removeServerFromConfiguration(server: McpServer): Promise<boolean> {
         try {
-            let result = await this.removeMcpServer(server.userConfigId || server.id);
+            let result = await this.removeMcpServer(server.id);
             
             if (result.success) {
                 console.log(`Successfully removed ${server.name} from VS Code MCP configuration`);
@@ -458,14 +458,6 @@ export class McpInstallationService {
      */
     private createServerConfiguration(server: McpServer): McpServerConfiguration | null {
         try {
-            // If server has explicit configuration, use it
-            if (server.mcpConfig) {
-                return {
-                    ...server.mcpConfig,
-                    type: 'stdio' // Ensure type is set correctly
-                };
-            }
-
             // If server has command and args directly specified, use them
             if (server.command) {
                 return {
@@ -557,61 +549,6 @@ export class McpInstallationService {
     }
 
     /**
-     * Generates uninstall command from install command
-     */
-    private getUninstallCommand(server: McpServer): string | null {
-        if (!server.installCommand) {
-            return null;
-        }
-
-        if (server.installCommand.includes('npm install')) {
-            const packageName = this.extractPackageName(server.installCommand);
-            return `npm uninstall ${packageName}`;
-        }
-
-        if (server.installCommand.includes('pip install')) {
-            const packageName = this.extractPythonPackageName(server.installCommand);
-            return `pip uninstall ${packageName} -y`;
-        }
-
-        return null; // No uninstall command available
-    }
-
-    /**
-     * Executes uninstall command
-     */
-    private async executeUninstallCommand(uninstallCommand: string): Promise<boolean> {
-        return new Promise((resolve) => {
-            try {
-                const { spawn } = require('child_process');
-                
-                const parts = uninstallCommand.split(' ');
-                const command = parts[0];
-                const args = parts.slice(1);
-                
-                console.log(`Executing uninstall: ${command} ${args.join(' ')}`);
-
-                const process = spawn(command, args, {
-                    stdio: ['pipe', 'pipe', 'pipe'],
-                    shell: true
-                });
-
-                process.on('close', (code: number) => {
-                    console.log(`Uninstall process exited with code ${code}`);
-                    resolve(code === 0);
-                });
-
-                process.on('error', (error: Error) => {
-                    console.error('Uninstall process error:', error);
-                    resolve(false);
-                });
-
-            } catch (error) {
-                console.error('Failed to execute uninstall command:', error);
-                resolve(false);
-            }
-        });
-    }    /**
      * Checks if a server is configured in VS Code MCP settings
      */
     public isServerConfigured(server: McpServer): boolean {
@@ -736,46 +673,7 @@ export class McpInstallationService {
 			};
 		}
 	}
-
-	/**
-	 * Migrates existing MCP server configurations from 'transport' to 'type' field
-	 */
-	async migrateMcpConfiguration(): Promise<{ migrated: number; errors: string[] }> {
-		const errors: string[] = [];
-		let migrated = 0;
-		
-		try {
-			const mcpConfig = vscode.workspace.getConfiguration('mcp');
-			const servers = mcpConfig.get<Record<string, any>>('servers', {});
-			
-			let hasChanges = false;
-			
-			// Migrate each server configuration
-			for (const [serverName, config] of Object.entries(servers)) {
-				if (config.transport && !config.type) {
-					// Migrate transport to type
-					config.type = config.transport;
-					delete config.transport;
-					hasChanges = true;
-					migrated++;
-					console.log(`Migrated server '${serverName}' from transport to type field`);
-				}
-			}
-			
-			// Update configuration if changes were made
-			if (hasChanges) {
-				await mcpConfig.update('servers', servers, vscode.ConfigurationTarget.Global);
-				console.log(`Migration complete: ${migrated} servers migrated`);
-			}
-			
-			return { migrated, errors };
-		} catch (error) {
-			const errorMsg = `Failed to migrate MCP configuration: ${error}`;
-			errors.push(errorMsg);
-			console.error(errorMsg);
-			return { migrated, errors };
-		}
-	}
+    
 	/**
 	 * Removes an MCP server from VS Code settings.json
 	 */
@@ -789,7 +687,7 @@ export class McpInstallationService {
 			
 			// Try to remove with the provided serverId first
 			if (servers[serverId]) {
-				delete servers[serverId];
+				servers[serverId] = undefined; // Use undefined to remove the property
 				removed = true;
 				removedId = serverId;
 			}
@@ -800,7 +698,7 @@ export class McpInstallationService {
 				if (cleanedId.endsWith('-server')) {
 					cleanedId = cleanedId.slice(0, -7);
 					if (servers[cleanedId]) {
-						delete servers[cleanedId];
+						servers[cleanedId] = undefined; // Use undefined to remove the property
 						removed = true;
 						removedId = cleanedId;
 					}
@@ -811,7 +709,7 @@ export class McpInstallationService {
 			if (!removed) {
 				const suffixedId = serverId + '-server';
 				if (servers[suffixedId]) {
-					delete servers[suffixedId];
+					servers[suffixedId] = undefined; // Use undefined to remove the property
 					removed = true;
 					removedId = suffixedId;
 				}
@@ -825,7 +723,9 @@ export class McpInstallationService {
 			}
 			
 			// Update the configuration
-			await mcpConfig.update('servers', servers, vscode.ConfigurationTarget.Global);
+			await mcpConfig.update('servers', undefined, vscode.ConfigurationTarget.Global);
+
+            await mcpConfig.update('servers', servers, vscode.ConfigurationTarget.Global);
 			
 			console.log(`Successfully removed server '${removedId}' from MCP configuration`);
 			

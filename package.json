@@ -2,7 +2,7 @@
   "name": "mcp-explorer",
   "displayName": "MCP Explorer",
   "description": "Find and install Model Context Protocol (MCP) servers for VS Code",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "moonolgerdai",
   "author": {
     "name": "moonolgerd"
