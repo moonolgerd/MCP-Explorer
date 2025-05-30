@@ -449,9 +449,9 @@
     },
     {
       "id": "figma-server",
-      "name": "Figma Server",
-      "description": "Direct access to Figma file data, helping one-shot design implementation.",
-      "version": "1.0.0",
+      "name": "Framelink Figma MCP Server",
+      "description": "MCP server to provide Figma layout information to AI coding agents like Cursor. Enables one-shot design implementation by providing direct access to Figma file data.",
+      "version": "0.3.1",
       "author": "GLips",
       "homepage": "https://github.com/GLips/Figma-Context-MCP",
       "repository": "https://github.com/GLips/Figma-Context-MCP",
@@ -460,15 +460,23 @@
         "figma",
         "design",
         "graphics",
+        "mcp",
+        "ai",
+        "cursor",
         "community"
       ],
-      "installCommand": "npm install figma-context-mcp",
+      "installCommand": "npm install figma-developer-mcp",
       "features": [
-        "file data access",
-        "design implementation"
+        "Figma file data access",
+        "one-shot design implementation",
+        "layout and style extraction",
+        "AI coding agent integration"
       ],
       "requirements": {
-        "node": ">=16.0.0"
+        "node": ">=16.0.0",
+        "environment": {
+          "FIGMA_API_KEY": "required"
+        }
       }
     },
     {

@@ -463,7 +463,8 @@ export class McpInstallationService {
                 return {
                     command: server.command,
                     args: server.args || [],
-                    type: 'stdio'
+                    type: 'stdio',
+                    env: server.requirements?.environment ? { ...server.requirements.environment } : undefined
                 };
             }
 
@@ -479,7 +480,8 @@ export class McpInstallationService {
                     return {
                         command: 'npx',
                         args: [packageName],
-                        type: 'stdio'
+                        type: 'stdio',
+                        env: server.requirements?.environment ? { ...server.requirements.environment } : undefined
                     };
                 }
 
@@ -493,7 +495,8 @@ export class McpInstallationService {
                     return {
                         command: 'uvx',
                         args: [packageName],
-                        type: 'stdio'
+                        type: 'stdio',
+                        env: server.requirements?.environment ? { ...server.requirements.environment } : undefined
                     };
                 }
 
@@ -503,7 +506,8 @@ export class McpInstallationService {
                     return {
                         command: 'npx',
                         args: parts.slice(1),
-                        type: 'stdio'
+                        type: 'stdio',
+                        env: server.requirements?.environment ? { ...server.requirements.environment } : undefined
                     };
                 }
 
@@ -513,7 +517,8 @@ export class McpInstallationService {
                     return {
                         command: commandParts[0],
                         args: commandParts.slice(1),
-                        type: 'stdio'
+                        type: 'stdio',
+                        env: server.requirements?.environment ? { ...server.requirements.environment } : undefined
                     };
                 }
             }
@@ -525,7 +530,8 @@ export class McpInstallationService {
                     return {
                         command: 'docker',
                         args: dockerParts.slice(1),
-                        type: 'stdio'
+                        type: 'stdio',
+                        env: server.requirements?.environment ? { ...server.requirements.environment } : undefined
                     };
                 }
             }
@@ -536,7 +542,8 @@ export class McpInstallationService {
                 return {
                     command: 'echo',
                     args: [`Please configure ${server.name} manually. See: ${server.repository}`],
-                    type: 'stdio'
+                    type: 'stdio',
+                    env: server.requirements?.environment ? { ...server.requirements.environment } : undefined
                 };
             }
 

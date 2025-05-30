@@ -103,6 +103,11 @@ All installation errors are now captured and displayed with detailed information
 - Basic configuration management
 - Webview for detailed server information
 
+### 0.0.6
+
+### 0.0.7
+- Added env
+
 ---
 
 ## Contributing
