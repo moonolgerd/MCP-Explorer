@@ -25,6 +25,16 @@ export async function activate(context: vscode.ExtensionContext) {
 		showCollapseAll: true
 	});
 
+	// Update tree view when search changes
+	explorerProvider.onDidChangeTreeData(() => {
+		const searchQuery = explorerProvider.getSearchQuery();
+		if (searchQuery.trim()) {
+			treeView.description = `Searching: "${searchQuery}"`;
+		} else {
+			treeView.description = undefined;
+		}
+	});
+
 	// Auto-refresh on startup if configured
 	const config = vscode.workspace.getConfiguration('mcpExplorer');
 	if (config.get<boolean>('autoRefresh', true)) {
@@ -44,23 +54,42 @@ export async function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('mcpExplorer.refresh', async () => {
 			await registryService.fetchServers(true);
 			vscode.window.showInformationMessage('MCP server list refreshed');
-		}),
-
-		// Search command
+		}),		// Search command
 		vscode.commands.registerCommand('mcpExplorer.search', async () => {
+			// Get search history from context
+			const searchHistory = context.globalState.get<string[]>('mcpExplorer.searchHistory', []);
+			
 			const query = await vscode.window.showInputBox({
 				prompt: 'Search MCP servers',
-				placeHolder: 'Enter server name, description, or tag...'
+				placeHolder: 'Enter server name, description, or tag...',
+				value: explorerProvider.getSearchQuery()
 			});
 			
 			if (query !== undefined) {
 				explorerProvider.setSearchQuery(query);
-				if (query) {
+				
+				// Save to search history if not empty and not already in history
+				if (query.trim() && !searchHistory.includes(query.trim())) {
+					searchHistory.unshift(query.trim());
+					// Keep only last 10 searches
+					if (searchHistory.length > 10) {
+						searchHistory.splice(10);
+					}
+					await context.globalState.update('mcpExplorer.searchHistory', searchHistory);
+				}
+				
+				if (query.trim()) {
 					vscode.window.showInformationMessage(`Searching for "${query}"`);
 				} else {
 					vscode.window.showInformationMessage('Search cleared');
 				}
 			}
+		}),
+
+		// Clear search command
+		vscode.commands.registerCommand('mcpExplorer.clearSearch', async () => {
+			explorerProvider.clearSearch();
+			vscode.window.showInformationMessage('Search cleared');
 		}),
 
 		// Install command

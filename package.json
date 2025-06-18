@@ -2,7 +2,7 @@
   "name": "mcp-explorer",
   "displayName": "MCP Explorer",
   "description": "Find and install Model Context Protocol (MCP) servers for VS Code",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "publisher": "moonolgerdai",
   "author": {
     "name": "moonolgerd"
@@ -61,6 +61,11 @@
         "command": "mcpExplorer.search",
         "title": "Search MCP Servers",
         "icon": "$(search)"
+      },
+      {
+        "command": "mcpExplorer.clearSearch",
+        "title": "Clear Search",
+        "icon": "$(clear-all)"
       },
       {
         "command": "mcpExplorer.install",
@@ -144,6 +149,11 @@
           "group": "navigation"
         },
         {
+          "command": "mcpExplorer.clearSearch",
+          "when": "view == mcpExplorer",
+          "group": "navigation"
+        },
+        {
           "command": "mcpExplorer.showMcpConfig",
           "when": "view == mcpExplorer",
           "group": "navigation"
@@ -211,10 +221,22 @@
         {
           "command": "mcpExplorer.removeMcpServer",
           "when": "view == mcpExplorer && viewItem == installedMcpServer",
-          "group": "configuration"
-        }
+          "group": "configuration"        }
       ]
     },
+    "keybindings": [
+      {
+        "command": "mcpExplorer.search",
+        "key": "ctrl+shift+f",
+        "mac": "cmd+shift+f",
+        "when": "focusedView == mcpExplorer"
+      },
+      {
+        "command": "mcpExplorer.clearSearch",
+        "key": "escape",
+        "when": "focusedView == mcpExplorer"
+      }
+    ],
     "configuration": {
       "title": "MCP Explorer",
       "properties": {

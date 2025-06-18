@@ -1,7 +1,7 @@
 {
   "version": "2.5.1",
   "lastUpdated": "2025-05-29T01:15:00.000Z",
-  "totalServers": 22,
+  "totalServers": 23,
   "categories": [
     "Development",
     "Database",
@@ -562,6 +562,49 @@
       "installCommand": "npm install mcp-atlassian",
       "features": ["issue management", "project management"],
       "requirements": {"node": ">=16.0.0"}
+    },
+    {
+      "id": "gitlab-server",
+      "name": "GitLab MCP Server",
+      "description": "Enhanced MCP server for GitLab: group projects listing, activity tracking, repository, issue, merge request, wiki, and member management. Integrates with AI assistants for full GitLab API access.",
+      "version": "1.0.0",
+      "author": "yoda-digital",
+      "homepage": "https://github.com/yoda-digital/mcp-gitlab-server",
+      "repository": "https://github.com/yoda-digital/mcp-gitlab-server",
+      "category": "Development",
+      "tags": [
+        "gitlab",
+        "git",
+        "mcp",
+        "ai",
+        "repositories",
+        "issues",
+        "merge requests",
+        "wiki",
+        "members",
+        "typescript",
+        "community"
+      ],
+      "installCommand": "npm install @yoda.digital/gitlab-mcp-server",
+      "features": [
+        "Comprehensive GitLab API integration",
+        "Repository management",
+        "File handling",
+        "Branch operations",
+        "Issue tracking",
+        "Merge request management",
+        "Group and member management",
+        "Wiki management",
+        "Read-only mode support",
+        "SSE and stdio transport"
+      ],
+      "requirements": {
+        "node": ">=16.0.0",
+        "environment": {
+          "GITLAB_PERSONAL_ACCESS_TOKEN": "required",
+          "GITLAB_API_URL": "https://gitlab.com/api/v4"
+        }
+      }
     }
   ]
 }

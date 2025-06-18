@@ -16,7 +16,13 @@
   - **Blockchain**: Solana, Ethereum, Bitcoin, DeFi protocols
   - **Data Science**: Jupyter, R, Python code execution
   - **And many more categories!**
-- **Search & Filter**: Find servers by name, description, category, or tags
+- **Enhanced Search & Filter**: Advanced search functionality with:
+  - **Real-time Search**: Find servers by name, description, category, tags, or author
+  - **Search History**: Remembers your last 10 searches for quick access
+  - **Category Filtering**: Search results organized by categories with filtered counts
+  - **Visual Search Indicators**: Tree view shows current search status
+  - **Keyboard Shortcuts**: Ctrl+Shift+F to search, Escape to clear
+  - **Smart Search**: Case-insensitive search with proper query validation
 - **Easy Installation**: Install MCP servers with a single click
 - **Configuration Management**: Configure installed servers through VS Code settings
 - **Status Indicators**: See which servers are installed and their current status
@@ -47,13 +53,23 @@ This extension contributes the following settings:
 ## Commands
 
 - **MCP Explorer: Refresh** - Refresh the server list from the registry
-- **MCP Explorer: Search** - Search for specific MCP servers
+- **MCP Explorer: Search** - Search for specific MCP servers (Ctrl+Shift+F)
+- **MCP Explorer: Clear Search** - Clear current search and show all servers (Escape)
 - **MCP Explorer: Install** - Install a selected MCP server
 - **MCP Explorer: Uninstall** - Remove an installed MCP server
 - **MCP Explorer: Configure** - Configure an installed MCP server
 - **MCP Explorer: View Details** - Show detailed information about a server
 
 ## How to Use
+
+### Searching for Servers
+The enhanced search functionality allows you to quickly find servers:
+1. **Quick Search**: Click the search icon in the MCP Servers panel or press Ctrl+Shift+F
+2. **Smart Filtering**: Search across server names, descriptions, categories, tags, and authors
+3. **Organized Results**: Search results are grouped by categories with filtered counts
+4. **Search History**: Previous searches are remembered for quick re-use
+5. **Clear Search**: Press Escape or click the clear search icon to show all servers
+6. **Visual Feedback**: The tree view shows your current search query
 
 ### Browsing Servers
 The MCP Explorer shows servers organized by categories. Expand any category to see available servers. Installed servers are marked with a green checkmark.
@@ -108,10 +124,22 @@ All installation errors are now captured and displayed with detailed information
 ### 0.0.7
 - Added env
 
+### 0.0.8
+- **Major Search Improvements**:
+  - Enhanced search algorithm with support for author field searching
+  - Added search history functionality (remembers last 10 searches)
+  - Improved search results display with category organization
+  - Added visual search indicators in tree view
+  - Implemented keyboard shortcuts (Ctrl+Shift+F for search, Escape to clear)
+  - Added clear search functionality with dedicated button
+  - Fixed category filtering during search operations
+  - Added "No results" message for empty search results
+  - Improved search state management and persistence
+
 ---
 
 ## Contributing
 
-Found a bug or want to contribute? Please visit our [GitHub repository](https://github.com/your-repo/mcp-explorer) to report issues or submit pull requests.
+Found a bug or want to contribute? Please visit our [GitHub repository](https://github.com/moonolgerd/mcp-explorer) to report issues or submit pull requests.
 
 **Enjoy exploring MCP servers!**

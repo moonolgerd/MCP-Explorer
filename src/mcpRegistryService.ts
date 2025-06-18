@@ -55,18 +55,21 @@ export class McpRegistryService {
             
             return this.servers;
         }
-    }
-
-    /**
+    }    /**
      * Search servers by query
      */
     searchServers(query: string): McpServer[] {
-        const lowercaseQuery = query.toLowerCase();
+        if (!query || !query.trim()) {
+            return [];
+        }
+        
+        const lowercaseQuery = query.toLowerCase().trim();
         return this.servers.filter(server => 
             server.name.toLowerCase().includes(lowercaseQuery) ||
             server.description.toLowerCase().includes(lowercaseQuery) ||
             server.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery)) ||
-            server.category.toLowerCase().includes(lowercaseQuery)
+            server.category.toLowerCase().includes(lowercaseQuery) ||
+            (server.author && server.author.toLowerCase().includes(lowercaseQuery))
         );
     }
 
