@@ -32,12 +32,22 @@ export class McpInstallationService {
                 if (token.isCancellationRequested) {
                     this._onDidChangeInstallation.fire({ server, status: InstallationStatus.Failed });
                     return false;
+                }                progress.report({ increment: 25, message: 'Collecting required configuration...' });                // Collect required environment variables from user
+                const envVars = await this.collectEnvironmentVariables(server);
+                if (envVars === null) {
+                    this._onDidChangeInstallation.fire({ server, status: InstallationStatus.Failed });
+                    return false;
                 }
 
-                progress.report({ increment: 25, message: 'Validating server configuration...' });
+                // Save environment variables for future use
+                if (Object.keys(envVars).length > 0) {
+                    await this.saveEnvironmentVariables(server.id, envVars);
+                }
 
-                // Create server configuration
-                const serverConfig = this.createServerConfiguration(server);
+                progress.report({ increment: 35, message: 'Creating server configuration...' });
+
+                // Create server configuration with collected environment variables
+                const serverConfig = this.createServerConfiguration(server, envVars);
                 if (!serverConfig) {
                     throw new Error(`Cannot create configuration for ${server.name}. Missing required information.`);
                 }
@@ -402,9 +412,7 @@ export class McpInstallationService {
     private async addServerToConfiguration(server: McpServer): Promise<boolean> {
         try {
             const config = vscode.workspace.getConfiguration('mcp');
-            const currentServers = config.get<any>('servers') || {};
-
-            // Create server configuration based on the server data
+            const currentServers = config.get<any>('servers') || {};            // Create server configuration based on the server data
             const serverConfig = this.createServerConfiguration(server);
             if (!serverConfig) {
                 console.error(`Failed to create configuration for ${server.name}`);
@@ -455,16 +463,18 @@ export class McpInstallationService {
         }
     }    /**
      * Creates VS Code MCP server configuration from server data
-     */
-    private createServerConfiguration(server: McpServer): McpServerConfiguration | null {
+     */    private createServerConfiguration(server: McpServer, envVars?: Record<string, string>): McpServerConfiguration | null {
         try {
+            // Merge collected environment variables with defaults
+            const environmentVars = envVars || (server.requirements?.environment ? { ...server.requirements.environment } : {});
+
             // If server has command and args directly specified, use them
             if (server.command) {
                 return {
                     command: server.command,
                     args: server.args || [],
                     type: 'stdio',
-                    env: server.requirements?.environment ? { ...server.requirements.environment } : undefined
+                    env: Object.keys(environmentVars).length > 0 ? environmentVars : undefined
                 };
             }
 
@@ -481,7 +491,7 @@ export class McpInstallationService {
                         command: 'npx',
                         args: [packageName],
                         type: 'stdio',
-                        env: server.requirements?.environment ? { ...server.requirements.environment } : undefined
+                        env: Object.keys(environmentVars).length > 0 ? environmentVars : undefined
                     };
                 }
 
@@ -496,29 +506,39 @@ export class McpInstallationService {
                         command: 'uvx',
                         args: [packageName],
                         type: 'stdio',
-                        env: server.requirements?.environment ? { ...server.requirements.environment } : undefined
+                        env: Object.keys(environmentVars).length > 0 ? environmentVars : undefined
                     };
-                }
-
-                // Handle direct npx commands
+                }                // Handle direct npx commands
                 if (server.installCommand.startsWith('npx')) {
-                    const parts = server.installCommand.split(' ');
+                    let parts = server.installCommand.split(' ');
+                    let args = parts.slice(1);
+                    
+                    // Substitute environment variables in arguments
+                    if (envVars && Object.keys(envVars).length > 0) {
+                        args = this.substituteEnvironmentVariables(args, envVars);
+                    }
+                    
                     return {
                         command: 'npx',
-                        args: parts.slice(1),
+                        args: args,
                         type: 'stdio',
-                        env: server.requirements?.environment ? { ...server.requirements.environment } : undefined
+                        env: Object.keys(environmentVars).length > 0 ? environmentVars : undefined
                     };
-                }
-
-                // Fallback configuration for other command types
+                }                // Fallback configuration for other command types
                 const commandParts = server.installCommand.split(' ');
                 if (commandParts.length >= 1) {
+                    let args = commandParts.slice(1);
+                    
+                    // Substitute environment variables in arguments
+                    if (envVars && Object.keys(envVars).length > 0) {
+                        args = this.substituteEnvironmentVariables(args, envVars);
+                    }
+                    
                     return {
                         command: commandParts[0],
-                        args: commandParts.slice(1),
+                        args: args,
                         type: 'stdio',
-                        env: server.requirements?.environment ? { ...server.requirements.environment } : undefined
+                        env: Object.keys(environmentVars).length > 0 ? environmentVars : undefined
                     };
                 }
             }
@@ -531,7 +551,7 @@ export class McpInstallationService {
                         command: 'docker',
                         args: dockerParts.slice(1),
                         type: 'stdio',
-                        env: server.requirements?.environment ? { ...server.requirements.environment } : undefined
+                        env: Object.keys(environmentVars).length > 0 ? environmentVars : undefined
                     };
                 }
             }
@@ -543,7 +563,7 @@ export class McpInstallationService {
                     command: 'echo',
                     args: [`Please configure ${server.name} manually. See: ${server.repository}`],
                     type: 'stdio',
-                    env: server.requirements?.environment ? { ...server.requirements.environment } : undefined
+                    env: Object.keys(environmentVars).length > 0 ? environmentVars : undefined
                 };
             }
 
@@ -822,5 +842,192 @@ export class McpInstallationService {
 			console.error('Failed to get configured servers list:', error);
 			return { serverIds: [], servers: {} };
 		}
-	}
+	}    /**
+     * Collects required environment variables from user input
+     */
+    private async collectEnvironmentVariables(server: McpServer): Promise<Record<string, string> | null> {
+        const envVars: Record<string, string> = {};
+        
+        if (!server.requirements?.environment) {
+            return envVars; // No environment variables required
+        }
+
+        // Get previously saved environment variables
+        const savedVars = this.getSavedEnvironmentVariables(server.id);
+
+        const requiredVars = Object.entries(server.requirements.environment).filter(([_, value]) => value === 'required');
+        
+        if (requiredVars.length === 0) {
+            // Only default values, no user input needed
+            return { ...server.requirements.environment };
+        }
+
+        // Show informational message about required configuration
+        const continueSetup = await vscode.window.showInformationMessage(
+            `${server.name} requires ${requiredVars.length} configuration value${requiredVars.length > 1 ? 's' : ''} to be set up:${Object.keys(savedVars).length > 0 ? ' (some values will be pre-filled from previous setup)' : ''}`,
+            { modal: true },
+            'Continue Setup', 'Cancel'
+        );
+
+        if (continueSetup !== 'Continue Setup') {
+            return null;
+        }
+
+        for (const [key, value] of Object.entries(server.requirements.environment)) {
+            if (value === 'required') {
+                // Check if we have a saved value for non-sensitive variables
+                if (savedVars[key] && !this.isSensitiveVariable(key)) {
+                    const useSaved = await vscode.window.showInformationMessage(
+                        `Use previously saved value for ${key}?`,
+                        'Yes', 'Enter New Value'
+                    );
+                    
+                    if (useSaved === 'Yes') {
+                        envVars[key] = savedVars[key];
+                        continue;
+                    }
+                }
+                
+                // Prompt user for required environment variable
+                const userValue = await this.promptForEnvironmentVariable(key, server);
+                if (userValue === null) {
+                    return null; // User cancelled
+                }
+                envVars[key] = userValue;
+            } else {
+                // Use default value if provided
+                envVars[key] = value;
+            }
+        }
+
+        return envVars;
+    }
+
+    /**
+     * Checks if a variable name is sensitive (contains secrets)
+     */
+    private isSensitiveVariable(varName: string): boolean {
+        const lowerName = varName.toLowerCase();
+        return lowerName.includes('token') || 
+               lowerName.includes('key') || 
+               lowerName.includes('password') ||
+               lowerName.includes('secret');
+    }
+
+    /**
+     * Prompts user for a specific environment variable
+     */
+    private async promptForEnvironmentVariable(varName: string, server: McpServer): Promise<string | null> {
+        let prompt = `Enter value for ${varName}`;
+        let placeholder = `${varName} value`;
+        let isPassword = false;
+
+        // Customize prompt based on variable name
+        if (varName.toLowerCase().includes('token') || varName.toLowerCase().includes('key')) {
+            prompt = `Enter ${varName} for ${server.name}`;
+            placeholder = 'Enter your API key/token';
+            isPassword = true;
+        } else if (varName.toLowerCase().includes('url')) {
+            prompt = `Enter ${varName} for ${server.name}`;
+            placeholder = 'https://api.example.com';
+        } else if (varName.toLowerCase().includes('host')) {
+            prompt = `Enter ${varName} for ${server.name}`;
+            placeholder = 'localhost or hostname';
+        } else if (varName.toLowerCase().includes('port')) {
+            prompt = `Enter ${varName} for ${server.name}`;
+            placeholder = '8080';
+        }
+
+        // Show information about the environment variable if server has documentation
+        if (server.homepage || server.repository) {
+            const learnMore = await vscode.window.showInformationMessage(
+                `${server.name} requires ${varName}. Would you like to learn more about obtaining this value?`,
+                'Continue with Input', 'Learn More', 'Cancel'
+            );
+
+            if (learnMore === 'Cancel') {
+                return null;
+            } else if (learnMore === 'Learn More') {
+                const url = server.homepage || server.repository;
+                if (url) {
+                    vscode.env.openExternal(vscode.Uri.parse(url));
+                    // Ask again after they've had a chance to learn more
+                    const continueAfterLearn = await vscode.window.showInformationMessage(
+                        `Have you obtained the required ${varName}?`,
+                        'Yes, Continue', 'Cancel'
+                    );
+                    if (continueAfterLearn !== 'Yes, Continue') {
+                        return null;
+                    }
+                }
+            }
+        }        const result = await vscode.window.showInputBox({
+            prompt,
+            placeHolder: placeholder,
+            password: isPassword,
+            validateInput: (value) => {
+                if (!value || value.trim().length === 0) {
+                    return `${varName} is required`;
+                }
+                return null;
+            }
+        });
+
+        return result || null;
+    }
+
+    /**
+     * Substitutes environment variables in command arguments
+     */
+    private substituteEnvironmentVariables(args: string[], envVars: Record<string, string>): string[] {
+        return args.map(arg => {
+            let substitutedArg = arg;
+            for (const [key, value] of Object.entries(envVars)) {
+                // Replace patterns like --api-key=YOUR-KEY or --figma-api-key=YOUR-KEY
+                substitutedArg = substitutedArg.replace(new RegExp(`--[^=]*=${key.replace(/_/g, '-').toLowerCase()}-key`, 'gi'), `--${key.replace(/_/g, '-').toLowerCase()}=${value}`);
+                substitutedArg = substitutedArg.replace(new RegExp(`--[^=]*=${key}`, 'gi'), `--${key.replace(/_/g, '-').toLowerCase()}=${value}`);
+                substitutedArg = substitutedArg.replace(new RegExp(`YOUR-KEY`, 'gi'), value);
+                substitutedArg = substitutedArg.replace(new RegExp(`\\$\\{${key}\\}`, 'g'), value);
+                substitutedArg = substitutedArg.replace(new RegExp(`\\$${key}`, 'g'), value);
+            }
+            return substitutedArg;
+        });
+    }    /**
+     * Saves environment variables to VS Code settings for reuse
+     */
+    private async saveEnvironmentVariables(serverId: string, envVars: Record<string, string>): Promise<void> {
+        try {
+            const config = vscode.workspace.getConfiguration('mcpExplorer');
+            const savedEnvVars = config.get<Record<string, Record<string, string>>>('environmentVariables', {});
+            
+            // Only save non-sensitive variables
+            const nonSensitiveVars: Record<string, string> = {};
+            for (const [key, value] of Object.entries(envVars)) {
+                if (!this.isSensitiveVariable(key)) {
+                    nonSensitiveVars[key] = value;
+                }
+            }
+            
+            if (Object.keys(nonSensitiveVars).length > 0) {
+                savedEnvVars[serverId] = nonSensitiveVars;
+                await config.update('environmentVariables', savedEnvVars, vscode.ConfigurationTarget.Global);
+            }
+        } catch (error) {
+            console.warn(`Failed to save environment variables for ${serverId}:`, error);
+        }
+    }
+
+    /**
+     * Retrieves previously saved environment variables
+     */
+    private getSavedEnvironmentVariables(serverId: string): Record<string, string> {
+        try {
+            const config = vscode.workspace.getConfiguration('mcpExplorer');
+            const savedEnvVars = config.get<Record<string, Record<string, string>>>('environmentVariables', {});
+            return savedEnvVars[serverId] || {};
+        } catch (error) {
+            console.warn(`Failed to retrieve saved environment variables for ${serverId}:`, error);
+            return {};
+        }
+    }
 }

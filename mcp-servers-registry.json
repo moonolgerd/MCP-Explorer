@@ -1,7 +1,6 @@
-{
-  "version": "2.5.1",
-  "lastUpdated": "2025-05-29T01:15:00.000Z",
-  "totalServers": 23,
+{  "version": "2.5.1",
+  "lastUpdated": "2025-06-17T12:00:00.000Z",
+  "totalServers": 24,
   "categories": [
     "Development",
     "Database",
@@ -47,11 +46,46 @@
         "file read/write",
         "directory operations",
         "file search",
-        "metadata access",
-        "secure sandboxing"
+        "metadata access",        "secure sandboxing"
       ],
       "requirements": {
         "node": ">=18.0.0"
+      }
+    },
+    {
+      "id": "figma-context-server",
+      "name": "Framelink Figma MCP Server",
+      "description": "Give your coding agent access to your Figma data. Implement designs in any framework in one-shot by providing AI coding tools with direct access to Figma files and design metadata.",
+      "version": "0.4.2",
+      "author": "GLips",
+      "homepage": "https://www.framelink.ai",
+      "repository": "https://github.com/GLips/Figma-Context-MCP",
+      "category": "Design & Graphics",
+      "tags": [
+        "figma",
+        "design",
+        "ui",
+        "ux",
+        "api",
+        "framelink",
+        "cursor",
+        "ai",
+        "code-generation"
+      ],
+      "installCommand": "npx -y figma-developer-mcp --figma-api-key=YOUR-KEY --stdio",
+      "features": [
+        "figma file access",
+        "design metadata extraction",
+        "layout information",
+        "styling data",
+        "one-shot design implementation",
+        "AI coding integration"
+      ],
+      "requirements": {
+        "node": ">=18.0.0",
+        "environment": {
+          "FIGMA_API_KEY": "required"
+        }
       }
     },
     {
