@@ -4,6 +4,31 @@ All notable changes to the "mcp-explorer" extension will be documented in this f
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.9] - 2025-06-25
+
+### Added
+- **Local Server Discovery**: Automatically discover MCP servers in workspace `.vscode` folders
+- Support for MCP configuration files (`mcp.json`, `mcp-config.json`, `mcp-servers.json`)
+- Detection of Node.js packages with MCP-related keywords in `package.json`
+- Discovery of Python scripts containing MCP imports and patterns
+- Recognition of shell scripts with MCP-related patterns
+- New "Local Servers" category in the explorer tree
+- Special icons and indicators for local servers (home icon)
+- File system watcher for real-time updates when local servers are added/removed
+- GitHub CI/CD workflows for automated publishing to VS Code Marketplace
+- Build and test automation on push/PR
+- Publishing scripts in package.json for local development
+
+### Improved
+- Enhanced tree view with better categorization including local servers
+- Automatic refresh of local servers when workspace changes
+- Better server identification and metadata extraction
+- Repository structure with comprehensive CI/CD documentation
+
+### Fixed
+- Registry service now properly combines local and remote servers
+- Extension disposal properly cleans up file watchers and resources
+
 ## [0.0.8] - 2025-06-17
 
 ### Added

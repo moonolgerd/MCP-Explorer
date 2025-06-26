@@ -55,18 +55,3 @@ jobs:
         name: extension-vsix
         path: '*.vsix'
         
-    - name: Create GitHub Release
-      if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v1
-      with:
-        files: '*.vsix'
-        body: |
-          ## Changes
-          
-          See [CHANGELOG.md](./CHANGELOG.md) for details.
-          
-          ## Installation
-          
-          Install from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=moonolgerdai.mcp-explorer)
-        draft: false
-        prerelease: false
